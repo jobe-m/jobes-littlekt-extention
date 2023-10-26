@@ -1,8 +1,8 @@
-package com.lehaine.littlekt.fleks.entity.config
+package com.jobeslegacy.engine.entity.config
 
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.World
-import com.lehaine.littlekt.fleks.util.Identifier
+import com.jobeslegacy.engine.util.Identifier
 
 
 /**

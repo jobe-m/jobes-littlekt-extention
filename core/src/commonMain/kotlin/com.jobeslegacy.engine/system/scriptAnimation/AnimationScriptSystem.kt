@@ -1,9 +1,9 @@
-package com.lehaine.littlekt.fleks.system.scriptAnimation
+package com.jobeslegacy.engine.system.scriptAnimation
 
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
-import com.lehaine.littlekt.fleks.component.*
-import com.lehaine.littlekt.fleks.util.Easing
+import com.jobeslegacy.engine.component.*
+import com.jobeslegacy.engine.util.Easing
 
 
 /**

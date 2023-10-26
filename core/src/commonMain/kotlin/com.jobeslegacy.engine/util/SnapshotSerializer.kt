@@ -1,8 +1,8 @@
-package com.lehaine.littlekt.fleks.util
+package com.jobeslegacy.engine.util
 
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.Entity
-import com.lehaine.littlekt.fleks.component.*
+import com.jobeslegacy.engine.component.*
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor

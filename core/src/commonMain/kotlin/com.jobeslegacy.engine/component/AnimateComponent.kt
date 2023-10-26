@@ -1,11 +1,11 @@
-package com.lehaine.littlekt.fleks.component
+package com.jobeslegacy.engine.component
 
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
-import com.lehaine.littlekt.fleks.util.AnySerializer
-import com.lehaine.littlekt.fleks.util.Easing
-import com.lehaine.littlekt.fleks.util.EasingSerializer
-import com.lehaine.littlekt.fleks.util.SerializeBase
+import com.jobeslegacy.engine.util.AnySerializer
+import com.jobeslegacy.engine.util.Easing
+import com.jobeslegacy.engine.util.EasingSerializer
+import com.jobeslegacy.engine.util.SerializeBase
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

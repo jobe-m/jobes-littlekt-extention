@@ -1,14 +1,14 @@
-package com.lehaine.littlekt.fleks.component
+package com.jobeslegacy.engine.component
 
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.World
-import com.lehaine.littlekt.fleks.entity.config.invalidEntity
-import com.lehaine.littlekt.fleks.util.Easing
-import com.lehaine.littlekt.fleks.util.Identifier
-import com.lehaine.littlekt.fleks.util.EasingSerializer
-import com.lehaine.littlekt.fleks.util.SerializeBase
+import com.jobeslegacy.engine.entity.config.invalidEntity
+import com.jobeslegacy.engine.util.Easing
+import com.jobeslegacy.engine.util.Identifier
+import com.jobeslegacy.engine.util.EasingSerializer
+import com.jobeslegacy.engine.util.SerializeBase
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

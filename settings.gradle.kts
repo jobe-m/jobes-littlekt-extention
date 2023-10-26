@@ -7,5 +7,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "jobes-littlekt-extention"
+rootProject.name = "jobeslegacy-engine"
 include("core")

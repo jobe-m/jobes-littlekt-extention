@@ -19,7 +19,7 @@ allprojects {
         mavenLocal()
     }
 
-    group = "com.lehaine.littlekt.fleks"
+    group = "com.jobeslegacy.engine"
     version = "0.0.1"
 }
 
