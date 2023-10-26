@@ -7,5 +7,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = "littlekt-fleks"
+rootProject.name = "jobes-littlekt-extention"
 include("core")
