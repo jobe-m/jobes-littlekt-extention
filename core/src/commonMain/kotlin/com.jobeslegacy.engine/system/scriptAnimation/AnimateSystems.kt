@@ -3,10 +3,12 @@ package com.jobeslegacy.engine.system.scriptAnimation
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.component.AnimateComponent
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimatePositionShapeX
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimatePositionShapeY
+import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateGridComponentX
+import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateGridComponentY
 import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateOffsetX
 import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateOffsetY
+import com.jobeslegacy.engine.component.*
+import com.lehaine.littlekt.extras.ecs.component.GridComponent
 import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 
@@ -66,20 +68,33 @@ class AnimateNoisyMoveSystem : IteratingSystem(
 }
 */
 
+/*
 class AnimatePositionShapeSystem : IteratingSystem(
     family { any(AnimatePositionShapeX, AnimatePositionShapeY, AnimateOffsetX, AnimateOffsetY) },
     interval = EachFrame
 ) {
     override fun onTickEntity(entity: Entity) {
-// TODO
-//        entity.getOrNull(PositionShape)?.let {
-//            updateProperty(entity, AnimatePositionShapeX, it::x)
-//            updateProperty(entity, AnimatePositionShapeY, it::y)
-//        }
-//        entity.getOrNull(Offset)?.let {
-//            updateProperty(entity, AnimateOffsetX, it::x)
-//            updateProperty(entity, AnimateOffsetY, it::y)
-//        }
+        entity.getOrNull(PositionShape)?.let {
+            updateProperty(entity, AnimatePositionShapeX, it::x)
+            updateProperty(entity, AnimatePositionShapeY, it::y)
+        }
+        entity.getOrNull(Offset)?.let {
+            updateProperty(entity, AnimateOffsetX, it::x)
+            updateProperty(entity, AnimateOffsetY, it::y)
+        }
+    }
+}
+*/
+
+class AnimateGridComponentSystem : IteratingSystem(
+    family { any(AnimateGridComponentX, AnimateGridComponentY) },
+    interval = EachFrame
+) {
+    override fun onTickEntity(entity: Entity) {
+        entity.getOrNull(GridComponent)?.let {
+            updateProperty(entity, AnimateGridComponentX, it::x)
+            updateProperty(entity, AnimateGridComponentY, it::y)
+        }
     }
 }
 

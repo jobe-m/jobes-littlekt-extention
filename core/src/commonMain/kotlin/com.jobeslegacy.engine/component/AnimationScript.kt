@@ -139,6 +139,19 @@ data class TweenAppearance(
     override var easing: Easing? = null
 ) : TweenBase
 
+@Serializable @SerialName("AnimationScript.TweenGridComponent")
+data class TweenGridComponent(
+    val x: Float? = null,
+    val y: Float? = null,
+
+    override var entity: Entity,
+    override var delay: Float? = null,
+    override var duration: Float? = null,
+    @Serializable(with = EasingSerializer::class)
+    override var easing: Easing? = null
+) : TweenBase
+
+// TODO check if needed or superseded by TweenGridComponent
 @Serializable @SerialName("AnimationScript.TweenPositionShape")
 data class TweenPositionShape(
     val x: Float? = null,

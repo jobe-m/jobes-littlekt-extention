@@ -3,7 +3,9 @@ package com.jobeslegacy.engine.system.scriptAnimation
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.component.*
+import com.jobeslegacy.engine.component.AnimateComponentType.*
 import com.jobeslegacy.engine.util.Easing
+import com.lehaine.littlekt.extras.ecs.component.GridComponent
 
 
 /**
@@ -103,8 +105,7 @@ class AnimationScriptSystem : IteratingSystem(
     private fun checkTween(tween: TweenBase, parentTween: ParallelTweens) {
         currentTween = tween
         currentParentTween = parentTween
-// TODO
-//        when (tween) {
+        when (tween) {
 //            is TweenAppearance -> tween.entity.getOrError(Appearance).let { start ->
 //                tween.alpha?.let { end -> createAnimateComponent(AppearanceAlpha, value = start.alpha, change = end - start.alpha) }
 //                tween.tint?.let { end ->  createAnimateComponent(AppearanceTint, start.tint ?: Rgb.WHITE,
@@ -112,14 +113,18 @@ class AnimationScriptSystem : IteratingSystem(
 //                ) }
 //                tween.visible?.let { value -> createAnimateComponent(AppearanceVisible, value) }
 //            }
-//            is TweenPositionShape -> tween.entity.getOrError(PositionShape).let { start ->
-//                tween.x?.let { end -> createAnimateComponent(PositionShapeX, start.x, end - start.x) }
-//                tween.y?.let { end -> createAnimateComponent(PositionShapeY, start.y, end - start.y) }
-//            }
-//            is TweenOffset -> tween.entity.getOrError(Offset).let { start ->
-//                tween.x?.let { end -> createAnimateComponent(OffsetX, start.x, end - start.x) }
-//                tween.y?.let { end -> createAnimateComponent(OffsetY, start.y, end - start.y) }
-//            }
+            is TweenGridComponent -> tween.entity.getOrError(GridComponent).let { start ->
+                tween.x?.let { end -> createAnimateComponent(GridComponentX, start.x , end - start.x) }
+                tween.y?.let { end -> createAnimateComponent(GridComponentY, start.y , end - start.y) }
+            }
+            is TweenPositionShape -> tween.entity.getOrError(PositionShape).let { start ->
+                tween.x?.let { end -> createAnimateComponent(PositionShapeX, start.x, end - start.x) }
+                tween.y?.let { end -> createAnimateComponent(PositionShapeY, start.y, end - start.y) }
+            }
+            is TweenOffset -> tween.entity.getOrError(Offset).let { start ->
+                tween.x?.let { end -> createAnimateComponent(OffsetX, start.x, end - start.x) }
+                tween.y?.let { end -> createAnimateComponent(OffsetY, start.y, end - start.y) }
+            }
 //            is TweenLayout -> tween.entity.getOrError(Layout).let { start ->
 //                tween.centerX?.let { value -> createAnimateComponent(LayoutCenterX, value) }
 //                tween.centerY?.let { value -> createAnimateComponent(LayoutCenterY, value) }
@@ -169,8 +174,8 @@ class AnimationScriptSystem : IteratingSystem(
 //            // A special type of TweenLifeCycle (to be created if needed) which directly changes the LifeCycle component
 //            is DeleteEntity -> tween.entity.configure { entityToDelete -> world -= entityToDelete }
 //            is ExecuteConfigFunction -> Invokable.invoke(tween.function, world, tween.entity, tween.config)
-//            else -> error("AnimationScriptSystem: Animate function for tween $tween not implemented!")
-//        }
+            else -> error("AnimationScriptSystem: Animate function for tween $tween not implemented!")
+        }
     }
 
     private fun createAnimateComponent(componentProperty: AnimateComponentType, value: Any, change: Any = Unit) {

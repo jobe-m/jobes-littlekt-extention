@@ -49,6 +49,7 @@ kotlin {
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.plugin.serialization)
+                implementation(project(":littlekt-extras:core"))
             }
         }
         val commonTest by getting {

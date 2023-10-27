@@ -55,6 +55,9 @@ data class AnimateComponent (
         val AnimatePositionShapeX = object : ComponentType<AnimateComponent>() {}
         val AnimatePositionShapeY = object : ComponentType<AnimateComponent>() {}
 
+        val AnimateGridComponentX = object : ComponentType<AnimateComponent>() {}
+        val AnimateGridComponentY = object : ComponentType<AnimateComponent>() {}
+
         val AnimateOffsetX = object : ComponentType<AnimateComponent>() {}
         val AnimateOffsetY = object : ComponentType<AnimateComponent>() {}
 
@@ -107,6 +110,9 @@ enum class AnimateComponentType(val type: ComponentType<AnimateComponent>) {
 
     PositionShapeX(AnimateComponent.AnimatePositionShapeX),
     PositionShapeY(AnimateComponent.AnimatePositionShapeY),
+
+    GridComponentX(AnimateComponent.AnimateGridComponentX),
+    GridComponentY(AnimateComponent.AnimateGridComponentY),
 
     OffsetX(AnimateComponent.AnimateOffsetX),
     OffsetY(AnimateComponent.AnimateOffsetY),
