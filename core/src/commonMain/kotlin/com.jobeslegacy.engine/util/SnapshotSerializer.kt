@@ -1,6 +1,7 @@
 package com.jobeslegacy.engine.util
 
 import com.github.quillraven.fleks.Component
+import com.github.quillraven.fleks.ComponentType
 import com.github.quillraven.fleks.Entity
 import com.jobeslegacy.engine.component.*
 import kotlinx.serialization.*
@@ -38,6 +39,9 @@ typealias FleksSnapshotOf = List<Component<*>>  // snapshot data of one entity
 @JvmInline @Serializable
 value class Identifier(val name: String)
 
+@JvmInline
+value class Ident<T>(val value: T)
+
 /*
  */
 /**
@@ -46,9 +50,9 @@ value class Identifier(val name: String)
  */
 internal val internalModule = SerializersModule {
     // Top level component classes
-    polymorphic(SerializeBase::class) {
+    polymorphic(Component::class) {
 //        subclass(AnimateComponent::class)
-        subclass(AnimationScript::class)
+        subclass(AnimationScript::class, AnimationScript.serializer())
 //        subclass(Info::class)
 //        subclass(Drawable::class)
 //        subclass(Appearance::class)
@@ -141,7 +145,7 @@ object EasingSerializer : KSerializer<Easing> {
         encoder.encodeString(value::class.toString().substringAfter('$'))
 
     override fun deserialize(decoder: Decoder): Easing = Easing.ALL[decoder.decodeString()] ?:
-        throw SerializationException("EasingAsString: No Easing type for '${decoder.decodeString()}' found in decoder!")
+    throw SerializationException("EasingAsString: No Easing type for '${decoder.decodeString()}' found in decoder!")
 }
 
 /**

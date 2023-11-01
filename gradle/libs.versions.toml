@@ -3,7 +3,7 @@ plugin-android = "7.2.2"
 plugin-kotlin = "1.8.10"
 
 kotlinx-coroutines = "1.6.4"
-fleks = "2.3"
+fleks = "2.4"
 
 littlekt = "0.7.0.a315f96-SNAPSHOT"
 

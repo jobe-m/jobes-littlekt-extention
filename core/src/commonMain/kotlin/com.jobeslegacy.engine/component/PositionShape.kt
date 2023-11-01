@@ -81,13 +81,15 @@ data class NoisyMove(
         val startY = y
         val endX = xTarget + if (xVariance != 0f) (-xVariance..xVariance).random() else 0f
         val endY = yTarget + if (yVariance != 0f) (-yVariance..yVariance).random() else 0f
-        updateAnimateComponent(this, entity, AnimateComponentType.NoisyMoveX, value = startX, change = endX - startX, waitTime, Easing.EASE_IN_OUT)
-        updateAnimateComponent(this, entity, AnimateComponentType.NoisyMoveY, value = startY, change = endY - startY, waitTime, Easing.EASE_IN_OUT)
+// TODO
+//        updateAnimateComponent(this, entity, AnimateComponentType.NoisyMoveX, value = startX, change = endX - startX, waitTime, Easing.EASE_IN_OUT)
+//        updateAnimateComponent(this, entity, AnimateComponentType.NoisyMoveY, value = startY, change = endY - startY, waitTime, Easing.EASE_IN_OUT)
 
     }
 
-    fun updateAnimateComponent(world: World, entity: Entity, componentProperty: AnimateComponentType, value: Any, change: Any = Unit, duration: Float? = null, easing: Easing? = null) = with (world) {
+    fun updateAnimateComponent(world: World, entity: Entity, componentProperty: AnimateProperty, value: Any, change: Any = Unit, duration: Float? = null, easing: Easing? = null) = with (world) {
         entity.configure { animatedEntity ->
+/* TODO
             animatedEntity.getOrAdd(componentProperty.type) { AnimateComponent(componentProperty) }.also {
                 it.change = change
                 it.value = value
@@ -95,6 +97,7 @@ data class NoisyMove(
                 it.timeProgress = 0f
                 it.easing = easing ?: Easing.LINEAR
             }
+*/
         }
     }
 

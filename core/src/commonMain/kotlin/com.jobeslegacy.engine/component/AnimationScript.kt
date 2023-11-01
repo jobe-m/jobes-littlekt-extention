@@ -26,7 +26,7 @@ data class AnimationScript(
     var active: Boolean = false,
     var initialized: Boolean = false
 ) : Component<AnimationScript>, SerializeBase {
-    override fun type(): ComponentType<AnimationScript> = AnimationScript
+    override fun type() = AnimationScript
 
     /**
      * Initialize internal waitTime property with delay value of first tweens if available.
@@ -60,7 +60,7 @@ data class TweenSequence(
     override var entity: Entity = invalidEntity, // not used
     override var delay: Float? = null,        // following 3 properties not used here
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -71,7 +71,7 @@ data class ParallelTweens(
     override var entity: Entity = invalidEntity,         // not used here
     override var delay: Float? = 0f,                  // in seconds
     override var duration: Float? = 0f,               // in seconds
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = Easing.LINEAR      // function to change the properties
 ) : TweenBase
 
@@ -80,7 +80,7 @@ data class Wait(
     override var entity: Entity = invalidEntity, // not used
     override var delay: Float? = null,   // Not used
     override var duration: Float? = 0f,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null  // not used
 ) : TweenBase
 
@@ -95,7 +95,7 @@ data class DeleteEntity(
     override var entity: Entity,
     override var delay: Float? = null,   // not used
     override var duration: Float? = 0f,  // not used - 0f for immediately
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null  // not used
 ) : TweenBase
 
@@ -109,7 +109,7 @@ data class SpawnEntity(
     override var entity: Entity = invalidEntity, // when entity is not given (=nullEntity) than it will be created
     override var delay: Float? = null,
     override var duration: Float? = 0f,  // not used - 0f for immediately
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null  // not used
 ) : TweenBase
 
@@ -121,7 +121,7 @@ data class ExecuteConfigFunction(
     override var entity: Entity,          // entity needs to be provided in any case
     override var delay: Float? = null,    // not used
     override var duration: Float? = null, // not used
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null   // not used
 ) : TweenBase
 
@@ -140,9 +140,9 @@ data class TweenAppearance(
 ) : TweenBase
 
 @Serializable @SerialName("AnimationScript.TweenGridComponent")
-data class TweenGridComponent(
-    val x: Float? = null,
-    val y: Float? = null,
+data class TweenMoveComponent(
+    val velocityX: Float? = null,
+    val velocityY: Float? = null,
 
     override var entity: Entity,
     override var delay: Float? = null,
@@ -160,7 +160,7 @@ data class TweenPositionShape(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -172,7 +172,7 @@ data class TweenOffset(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -186,7 +186,7 @@ data class TweenLayout(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -201,7 +201,7 @@ data class TweenSprite(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -214,7 +214,7 @@ data class TweenSwitchLayerVisibility(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -235,7 +235,7 @@ data class TweenNoisyMove(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -249,7 +249,7 @@ data class TweenSpawner(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase
 
@@ -263,6 +263,6 @@ data class TweenSound(
     override var entity: Entity,
     override var delay: Float? = null,
     override var duration: Float? = null,
-//    @Serializable(with = EasingSerializer::class)
+    @Serializable(with = EasingSerializer::class)
     override var easing: Easing? = null
 ) : TweenBase

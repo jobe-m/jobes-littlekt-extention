@@ -3,9 +3,12 @@ package com.jobeslegacy.engine.system.scriptAnimation
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.component.*
-import com.jobeslegacy.engine.component.AnimateComponentType.*
+import com.jobeslegacy.engine.component.AnimateProperty.PositionShapeY
+import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityX
+import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityY
 import com.jobeslegacy.engine.util.Easing
-import com.lehaine.littlekt.extras.ecs.component.GridComponent
+import com.lehaine.littlekt.extras.ecs.component.MoveComponent
+import com.lehaine.littlekt.log.Logger
 
 
 /**
@@ -19,6 +22,7 @@ class AnimationScriptSystem : IteratingSystem(
     private lateinit var currentTween: TweenBase
     private lateinit var currentParentTween: ParallelTweens
 
+    private val logger = Logger("AnimationScriptSystem")
     /**
      * When the system is called it checks for the AnimationScript component if the waitTime is over.
      * If yes, then it checks the step at index in the array which type it has.
@@ -113,18 +117,18 @@ class AnimationScriptSystem : IteratingSystem(
 //                ) }
 //                tween.visible?.let { value -> createAnimateComponent(AppearanceVisible, value) }
 //            }
-            is TweenGridComponent -> tween.entity.getOrError(GridComponent).let { start ->
-                tween.x?.let { end -> createAnimateComponent(GridComponentX, start.x , end - start.x) }
-                tween.y?.let { end -> createAnimateComponent(GridComponentY, start.y , end - start.y) }
-            }
             is TweenPositionShape -> tween.entity.getOrError(PositionShape).let { start ->
-                tween.x?.let { end -> createAnimateComponent(PositionShapeX, start.x, end - start.x) }
+//                tween.x?.let { end -> createAnimateComponent(PositionShapeX, start.x, end - start.x) }
                 tween.y?.let { end -> createAnimateComponent(PositionShapeY, start.y, end - start.y) }
             }
-            is TweenOffset -> tween.entity.getOrError(Offset).let { start ->
-                tween.x?.let { end -> createAnimateComponent(OffsetX, start.x, end - start.x) }
-                tween.y?.let { end -> createAnimateComponent(OffsetY, start.y, end - start.y) }
+            is TweenMoveComponent -> tween.entity.getOrError(MoveComponent).let { start ->
+                tween.velocityX?.let { end -> createAnimateComponent(MoveComponentVelocityX, start.velocityX , end - start.velocityX) }
+                tween.velocityY?.let { end -> createAnimateComponent(MoveComponentVelocityY, start.velocityY , end - start.velocityY) }
             }
+//            is TweenOffset -> tween.entity.getOrError(Offset).let { start ->
+//                tween.x?.let { end -> createAnimateComponent(OffsetX, start.x, end - start.x) }
+//                tween.y?.let { end -> createAnimateComponent(OffsetY, start.y, end - start.y) }
+//            }
 //            is TweenLayout -> tween.entity.getOrError(Layout).let { start ->
 //                tween.centerX?.let { value -> createAnimateComponent(LayoutCenterX, value) }
 //                tween.centerY?.let { value -> createAnimateComponent(LayoutCenterY, value) }
@@ -174,19 +178,27 @@ class AnimationScriptSystem : IteratingSystem(
 //            // A special type of TweenLifeCycle (to be created if needed) which directly changes the LifeCycle component
 //            is DeleteEntity -> tween.entity.configure { entityToDelete -> world -= entityToDelete }
 //            is ExecuteConfigFunction -> Invokable.invoke(tween.function, world, tween.entity, tween.config)
-            else -> error("AnimationScriptSystem: Animate function for tween $tween not implemented!")
+            else -> error("AnimationScriptSystem: Animate function for tween $tween is not implemented!")
         }
     }
 
-    private fun createAnimateComponent(componentProperty: AnimateComponentType, value: Any, change: Any = Unit) {
+    private fun createAnimateComponent(componentProperty: AnimateProperty, value: Any, change: Any = Unit) {
+//    private fun createAnimateComponent(componentType: ComponentType<AnimateComponent>, value: Any, change: Any = Unit) {
         currentTween.entity.configure { animatedEntity ->
+            logger.info { "ComponentProperty type: ${componentProperty.type}" }
+            logger.info { "ComponentProperty type id: ${componentProperty.type.id}" }
+//            logger.info { "ComponentType: ${componentType}" }
+//            logger.info { "getOrNull: ${animatedEntity.getOrNull(componentType)}" }
+//*
             animatedEntity.getOrAdd(componentProperty.type) { AnimateComponent(componentProperty) }.also {
+//            animatedEntity.getOrAdd(componentType) { AnimateComponent(componentType) }.also {
                 it.change = change
                 it.value = value
                 it.duration = currentTween.duration ?: currentParentTween.duration ?: 0f
                 it.timeProgress = 0f
                 it.easing = currentTween.easing ?: currentParentTween.easing ?: Easing.LINEAR
             }
+// */
         }
     }
 

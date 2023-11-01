@@ -3,12 +3,12 @@ package com.jobeslegacy.engine.system.scriptAnimation
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.component.AnimateComponent
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateGridComponentX
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateGridComponentY
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateOffsetX
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateOffsetY
 import com.jobeslegacy.engine.component.*
-import com.lehaine.littlekt.extras.ecs.component.GridComponent
+import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateMoveComponentVelocityX
+import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateMoveComponentVelocityY
+import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityX
+import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityY
+import com.lehaine.littlekt.extras.ecs.component.*
 import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 
@@ -86,14 +86,15 @@ class AnimatePositionShapeSystem : IteratingSystem(
 }
 */
 
-class AnimateGridComponentSystem : IteratingSystem(
-    family { any(AnimateGridComponentX, AnimateGridComponentY) },
+
+class AnimateMoveComponentSystem : IteratingSystem(
+    family { any(AnimateMoveComponentVelocityX, AnimateMoveComponentVelocityY) },
     interval = EachFrame
 ) {
     override fun onTickEntity(entity: Entity) {
-        entity.getOrNull(GridComponent)?.let {
-            updateProperty(entity, AnimateGridComponentX, it::x)
-            updateProperty(entity, AnimateGridComponentY, it::y)
+        entity.getOrNull(MoveComponent)?.let {
+            updateProperty(entity, AnimateMoveComponentVelocityX, it::velocityX)
+            updateProperty(entity, AnimateMoveComponentVelocityY, it::velocityY)
         }
     }
 }
