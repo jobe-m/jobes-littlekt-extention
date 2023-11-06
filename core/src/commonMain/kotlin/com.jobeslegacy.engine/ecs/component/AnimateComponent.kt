@@ -1,4 +1,4 @@
-package com.jobeslegacy.engine.component
+package com.jobeslegacy.engine.ecs.component
 
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType

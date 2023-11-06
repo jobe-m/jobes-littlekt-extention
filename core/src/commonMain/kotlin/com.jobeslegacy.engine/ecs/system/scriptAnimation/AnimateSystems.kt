@@ -1,14 +1,11 @@
-package com.jobeslegacy.engine.system.scriptAnimation
+package com.jobeslegacy.engine.ecs.system.scriptAnimation
 
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
-import com.jobeslegacy.engine.component.AnimateComponent
-import com.jobeslegacy.engine.component.*
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateMoveComponentVelocityX
-import com.jobeslegacy.engine.component.AnimateComponent.Companion.AnimateMoveComponentVelocityY
-import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityX
-import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityY
-import com.lehaine.littlekt.extras.ecs.component.*
+import com.jobeslegacy.engine.ecs.component.AnimateComponent
+import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateMoveComponentVelocityX
+import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateMoveComponentVelocityY
+import com.jobeslegacy.engine.ecs.component.*
 import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 

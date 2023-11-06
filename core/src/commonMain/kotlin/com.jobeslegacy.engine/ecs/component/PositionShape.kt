@@ -1,11 +1,11 @@
-package com.jobeslegacy.engine.component
+package com.jobeslegacy.engine.ecs.component
 
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.World
 import com.jobeslegacy.engine.util.SerializeBase
-import com.jobeslegacy.engine.entity.config.invalidEntity
+import com.jobeslegacy.engine.ecs.entity.config.invalidEntity
 import com.jobeslegacy.engine.util.*
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName

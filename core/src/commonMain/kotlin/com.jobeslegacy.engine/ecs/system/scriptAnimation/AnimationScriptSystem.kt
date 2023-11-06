@@ -1,13 +1,14 @@
-package com.jobeslegacy.engine.system.scriptAnimation
+package com.jobeslegacy.engine.ecs.system.scriptAnimation
 
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.component.*
-import com.jobeslegacy.engine.component.AnimateProperty.PositionShapeY
-import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityX
-import com.jobeslegacy.engine.component.AnimateProperty.MoveComponentVelocityY
+import com.jobeslegacy.engine.ecs.component.*
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.PositionShapeY
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.MoveComponentVelocityX
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.MoveComponentVelocityY
 import com.jobeslegacy.engine.util.Easing
-import com.lehaine.littlekt.extras.ecs.component.MoveComponent
+import com.jobeslegacy.engine.ecs.component.MoveComponent
 import com.lehaine.littlekt.log.Logger
 
 

@@ -1,4 +1,4 @@
-package com.jobeslegacy.engine.entity.config
+package com.jobeslegacy.engine.ecs.entity.config
 
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.World
