@@ -15,6 +15,9 @@ import kotlin.math.min
 /**
  *
  * Taken over and adapted from littlekt-extras
+ *
+ * TODO check what is static config and
+ *      what is dynamic config -> This needs to be serialized for save-game
  */
 class GridComponent(
     var gridCellSize: Float,
