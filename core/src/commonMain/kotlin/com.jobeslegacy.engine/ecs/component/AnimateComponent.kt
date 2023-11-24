@@ -39,57 +39,57 @@ data class AnimateComponent (
     // 1. Make sure new AnimationComponent names are added both here and in the AnimateProperties enum class
     // 2. Make sure the name is the same, otherwise animate systems will behave confusingly
 /*
-        val AnimateSpriteIsPlaying = componentTypeOf<AnimateComponent>()
-        val AnimateSpriteForwardDirection = componentTypeOf<AnimateComponent>()
-        val AnimateSpriteLoop = componentTypeOf<AnimateComponent>()
-        val AnimateSpriteDestroyOnPlayingFinished = componentTypeOf<AnimateComponent>()
-        val AnimateSpriteAnimName = componentTypeOf<AnimateComponent>()
+        val AnimateSpriteIsPlaying = AnimateProperty.
+        val AnimateSpriteForwardDirection = AnimateProperty.
+        val AnimateSpriteLoop = AnimateProperty.
+        val AnimateSpriteDestroyOnPlayingFinished = AnimateProperty.
+        val AnimateSpriteAnimName = AnimateProperty.
 
-        val AnimateAppearanceAlpha = componentTypeOf<AnimateComponent>()
-        val AnimateAppearanceTint = componentTypeOf<AnimateComponent>()
-        val AnimateAppearanceVisible = componentTypeOf<AnimateComponent>()
-
-        val AnimateSpawnerNumberOfObjects = componentTypeOf<AnimateComponent>()
-        val AnimateSpawnerInterval = componentTypeOf<AnimateComponent>()
-        val AnimateSpawnerTimeVariation = componentTypeOf<AnimateComponent>()
-        val AnimateSpawnerPositionVariation = componentTypeOf<AnimateComponent>()
-
-        val AnimateLifeCycleHealthCounter = componentTypeOf<AnimateComponent>()
+        val AnimateAppearanceAlpha = AnimateProperty.
+        val AnimateAppearanceTint = AnimateProperty.
+        val AnimateAppearanceVisible = AnimateProperty.
 */
-        val AnimatePositionShapeX = AnimateProperty.PositionShapeX.type
-        val AnimatePositionShapeY = AnimateProperty.PositionShapeY.type
+        val AnimateSpawnerComponentNumberOfObjects = AnimateProperty.SpawnerComponentNumberOfObjects.type
+        val AnimateSpawnerComponentInterval = AnimateProperty.SpawnerComponentInterval.type
+        val AnimateSpawnerComponentTimeVariation = AnimateProperty.SpawnerComponentTimeVariation.type
+        val AnimateSpawnerComponentPositionVariation = AnimateProperty.SpawnerComponentPositionVariation.type
+/*
+        val AnimateLifeCycleHealthCounter = AnimateProperty.
+*/
+        val AnimatePositionAndSizeComponentX = AnimateProperty.PositionAndSizeComponentX.type
+        val AnimatePositionAndSizeComponentY = AnimateProperty.PositionAndSizeComponentY.type
         
         val AnimateMoveComponentVelocityX = AnimateProperty.MoveComponentVelocityX.type
         val AnimateMoveComponentVelocityY = AnimateProperty.MoveComponentVelocityY.type
 /*
-        val AnimateOffsetX = componentTypeOf<AnimateComponent>()
-        val AnimateOffsetY = componentTypeOf<AnimateComponent>()
+        val AnimateOffsetX = AnimateProperty.
+        val AnimateOffsetY = AnimateProperty.
 
-        val AnimateLayoutCenterX = componentTypeOf<AnimateComponent>()
-        val AnimateLayoutCenterY = componentTypeOf<AnimateComponent>()
-        val AnimateLayoutOffsetX = componentTypeOf<AnimateComponent>()
-        val AnimateLayoutOffsetY = componentTypeOf<AnimateComponent>()
+        val AnimateLayoutCenterX = AnimateProperty.
+        val AnimateLayoutCenterY = AnimateProperty.
+        val AnimateLayoutOffsetX = AnimateProperty.
+        val AnimateLayoutOffsetY = AnimateProperty.
 
-        val AnimateSwitchLayerVisibilityOnVariance = componentTypeOf<AnimateComponent>()
-        val AnimateSwitchLayerVisibilityOffVariance = componentTypeOf<AnimateComponent>()
+        val AnimateSwitchLayerVisibilityOnVariance = AnimateProperty.
+        val AnimateSwitchLayerVisibilityOffVariance = AnimateProperty.
 
-        val AnimateNoisyMoveTriggerChangeVariance = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveTriggerBackVariance = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveInterval = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveIntervalVariance = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveXTarget = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveYTarget = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveXVariance = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveYVariance = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveX = componentTypeOf<AnimateComponent>()
-        val AnimateNoisyMoveY = componentTypeOf<AnimateComponent>()
+        val AnimateNoisyMoveTriggerChangeVariance = AnimateProperty.
+        val AnimateNoisyMoveTriggerBackVariance = AnimateProperty.
+        val AnimateNoisyMoveInterval = AnimateProperty.
+        val AnimateNoisyMoveIntervalVariance = AnimateProperty.
+        val AnimateNoisyMoveXTarget = AnimateProperty.
+        val AnimateNoisyMoveYTarget = AnimateProperty.
+        val AnimateNoisyMoveXVariance = AnimateProperty.
+        val AnimateNoisyMoveYVariance = AnimateProperty.
+        val AnimateNoisyMoveX = AnimateProperty.
+        val AnimateNoisyMoveY = AnimateProperty.
 
-        val AnimateSoundStartTrigger = componentTypeOf<AnimateComponent>()
-        val AnimateSoundStopTrigger = componentTypeOf<AnimateComponent>()
-        val AnimateSoundPosition = componentTypeOf<AnimateComponent>()
-        val AnimateSoundVolume = componentTypeOf<AnimateComponent>()
+        val AnimateSoundStartTrigger = AnimateProperty.
+        val AnimateSoundStopTrigger = AnimateProperty.
+        val AnimateSoundPosition = AnimateProperty.
+        val AnimateSoundVolume = AnimateProperty.
 
-        val ExecuteConfigureFunction = componentTypeOf<AnimateComponent>()
+        val ExecuteConfigureFunction = AnimateProperty.
 */
     }
 }
@@ -101,8 +101,8 @@ data class AnimateComponent (
  * animateProperty of the base AnimateComponent data class.
  */
 enum class AnimateProperty(val type: ComponentType<AnimateComponent>) {
-    PositionShapeX(componentTypeOf<AnimateComponent>()),
-    PositionShapeY(componentTypeOf<AnimateComponent>()),
+    PositionAndSizeComponentX(componentTypeOf<AnimateComponent>()),
+    PositionAndSizeComponentY(componentTypeOf<AnimateComponent>()),
     MoveComponentVelocityX(componentTypeOf<AnimateComponent>()),
     MoveComponentVelocityY(componentTypeOf<AnimateComponent>()),
 
@@ -115,12 +115,12 @@ enum class AnimateProperty(val type: ComponentType<AnimateComponent>) {
     AppearanceAlpha(AnimateComponent.AnimateAppearanceAlpha),
     AppearanceTint(AnimateComponent.AnimateAppearanceTint),
     AppearanceVisible(AnimateComponent.AnimateAppearanceVisible),
-
-    SpawnerNumberOfObjects(AnimateComponent.AnimateSpawnerNumberOfObjects),
-    SpawnerInterval(AnimateComponent.AnimateSpawnerInterval),
-    SpawnerTimeVariation(AnimateComponent.AnimateSpawnerTimeVariation),
-    SpawnerPositionVariation(AnimateComponent.AnimateSpawnerPositionVariation),
-
+*/
+    SpawnerComponentNumberOfObjects(componentTypeOf<AnimateComponent>()),
+    SpawnerComponentInterval(componentTypeOf<AnimateComponent>()),
+    SpawnerComponentTimeVariation(componentTypeOf<AnimateComponent>()),
+    SpawnerComponentPositionVariation(componentTypeOf<AnimateComponent>()),
+/*
     // TODO not used yet in animation system
     LifeCycleHealthCounter(AnimateComponent.AnimateLifeCycleHealthCounter),
 

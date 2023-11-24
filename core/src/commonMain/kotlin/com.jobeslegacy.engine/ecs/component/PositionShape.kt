@@ -14,34 +14,34 @@ import kotlinx.serialization.SerialName
  * This component is used to add generic object properties like position and size to an entity.
  * The data from this component will be processed e.g. by the KorgeViewSystem in the Fleks ECS.
  */
-@Serializable @SerialName("PositionShape")
-data class PositionShape(
+@Serializable @SerialName("PositionAndSize")
+data class PositionAndSizeComponent(
     var initialized: Boolean = false,
     var x: Float = 0.0f,
     var y: Float = 0.0f,
     var width: Float = 0.0f,
     var height: Float = 0.0f,
-) : Component<PositionShape>, SerializeBase {
-    override fun type() = PositionShape
-    companion object : ComponentType<PositionShape>()
+) : Component<PositionAndSizeComponent>, SerializeBase {
+    override fun type() = PositionAndSizeComponent
+    companion object : ComponentType<PositionAndSizeComponent>()
 }
 
 @Serializable @SerialName("Offset")
-data class Offset(
+data class OffsetComponent(
     var x: Float = 0.0f,
     var y: Float = 0.0f
-) : Component<Offset>, SerializeBase {
-    override fun type() = Offset
-    companion object : ComponentType<Offset>()
+) : Component<OffsetComponent>, SerializeBase {
+    override fun type() = OffsetComponent
+    companion object : ComponentType<OffsetComponent>()
 }
 
 @Serializable @SerialName("OffsetByFrameIndex")
-data class OffsetByFrameIndex(
+data class OffsetByFrameIndexComponent(
     var entity: Entity = invalidEntity,
     var list: Map<String, List<Point>> = emptyMap()
-) : Component<OffsetByFrameIndex>, SerializeBase {
-    override fun type() = OffsetByFrameIndex
-    companion object : ComponentType<OffsetByFrameIndex>()
+) : Component<OffsetByFrameIndexComponent>, SerializeBase {
+    override fun type() = OffsetByFrameIndexComponent
+    companion object : ComponentType<OffsetByFrameIndexComponent>()
 }
 
 /**
@@ -49,7 +49,7 @@ data class OffsetByFrameIndex(
  * the specified [xVariance] and [yVariance].
  */
 @Serializable @SerialName("AutomaticMoving")
-data class NoisyMove(
+data class NoisyMoveComponent(
     // trigger variance for start moving: (1.0) - trigger immediately when possible, (0.0) - no trigger for start moving at all
     var triggerVariance: Float = 0f,
     // terminate variance for stop moving: (1.0) - always terminate previous trigger, (0.0) - triggered moving stays forever
@@ -69,8 +69,8 @@ data class NoisyMove(
     // Internal runtime data
     var timeProgress: Float = 0f,
     var waitTime: Float = 0f
-) : Component<NoisyMove>, SerializeBase {
-    override fun type() = NoisyMove
+) : Component<NoisyMoveComponent>, SerializeBase {
+    override fun type() = NoisyMoveComponent
 
     override fun World.onAdd(entity: Entity) {
 
@@ -101,7 +101,7 @@ data class NoisyMove(
         }
     }
 
-    companion object : ComponentType<NoisyMove>()
+    companion object : ComponentType<NoisyMoveComponent>()
 }
 
 @Serializable @SerialName("PositionShape.Point")

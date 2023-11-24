@@ -139,7 +139,7 @@ data class TweenAppearance(
     override var easing: Easing? = null
 ) : TweenBase
 
-@Serializable @SerialName("AnimationScript.TweenGridComponent")
+@Serializable @SerialName("AnimationScript.TweenMove")
 data class TweenMoveComponent(
     val velocityX: Float? = null,
     val velocityY: Float? = null,
@@ -152,8 +152,8 @@ data class TweenMoveComponent(
 ) : TweenBase
 
 // TODO check if needed or superseded by TweenGridComponent
-@Serializable @SerialName("AnimationScript.TweenPositionShape")
-data class TweenPositionShape(
+@Serializable @SerialName("AnimationScript.TweenPositionAndSize")
+data class TweenPositionAndSizeComponent(
     val x: Float? = null,
     val y: Float? = null,
 
@@ -240,7 +240,7 @@ data class TweenNoisyMove(
 ) : TweenBase
 
 @Serializable @SerialName("AnimationScript.TweenSpawner")
-data class TweenSpawner(
+data class TweenSpawnerComponent(
     var numberOfObjects: Int? = null,
     var interval: Int? = null,
     var timeVariation: Int? = null,

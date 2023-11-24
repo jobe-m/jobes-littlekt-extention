@@ -2,6 +2,9 @@ package com.jobeslegacy.engine.ecs.component
 
 import com.github.quillraven.fleks.Component
 import com.github.quillraven.fleks.ComponentType
+import com.jobeslegacy.engine.ecs.system.GridSystemConfig.GRID_CELL_SIZE_F
+import com.jobeslegacy.engine.ecs.system.GridSystemConfig.WIDTH
+import com.jobeslegacy.engine.ecs.system.GridSystemConfig.HEIGHT
 import com.lehaine.littlekt.extras.grid.entity.GridEntity
 import com.lehaine.littlekt.math.castRay
 import com.lehaine.littlekt.math.dist
@@ -18,25 +21,38 @@ import kotlin.math.min
  *
  * TODO check what is static config and
  *      what is dynamic config -> This needs to be serialized for save-game
+ *
+ * /**
+ *  * This component is used to add generic object properties like position and size to an entity.
+ *  * The data from this component will be processed e.g. by the KorgeViewSystem in the Fleks ECS.
+ *  */
+ * @Serializable @SerialName("PositionShape")
+ * data class PositionShape(
+ *     var initialized: Boolean = false,
+ *     var x: Float = 0.0f,
+ *     var y: Float = 0.0f,
+ *     var width: Float = 0.0f,
+ *     var height: Float = 0.0f,
+ *     ) : Component<PositionShape>, SerializeBase {
+ *     override fun type() = PositionShape
+ *     companion object : ComponentType<PositionShape>()
+ * }
+ *
  */
 class GridComponent(
-    var gridCellSize: Float,
-    var width: Float = gridCellSize,
-    var height: Float = gridCellSize
+    var cx: Int = 0,
+    var cy: Int = 0,
+    var xr: Float = 0f,
+    var yr: Float = 0f,
+    var zr: Float = 0f
 ) : Component<GridComponent> {
     var anchorX: Float = 0.5f
     var anchorY: Float = 0.5f
 
-    var cx: Int = 0
-    var cy: Int = 0
-    var xr: Float = 0f
-    var yr: Float = 0f
-    var zr: Float = 0f
-
     var maxGridMovementPercent: Float = 0.33f
 
-    val innerRadius get() = min(width, height) * 0.5f
-    val outerRadius get() = max(width, height) * 0.5f
+    val innerRadius get() = min(WIDTH, HEIGHT) * 0.5f
+    val outerRadius get() = max(WIDTH, HEIGHT) * 0.5f
 
     var interpolatePixelPosition: Boolean = true
 
@@ -54,8 +70,8 @@ class GridComponent(
             }
         }
         set(value) {
-            cx = (value / gridCellSize).toInt()
-            xr = (value - cx * gridCellSize) / gridCellSize
+            cx = (value / GRID_CELL_SIZE_F).toInt()
+            xr = (value - cx * GRID_CELL_SIZE_F) / GRID_CELL_SIZE_F
             onPositionManuallyChanged()
         }
 
@@ -68,8 +84,8 @@ class GridComponent(
             }
         }
         set(value) {
-            cy = (value / gridCellSize).toInt()
-            yr = (value - cy * gridCellSize) / gridCellSize
+            cy = (value / GRID_CELL_SIZE_F).toInt()
+            yr = (value - cy * GRID_CELL_SIZE_F) / GRID_CELL_SIZE_F
             onPositionManuallyChanged()
         }
 
@@ -77,14 +93,14 @@ class GridComponent(
     var scaleY: Float = 1f
     var rotation: Angle = Angle.ZERO
 
-    val attachX get() = (cx + xr) * gridCellSize
-    val attachY get() = (cy + yr - zr) * gridCellSize
-    val centerX get() = attachX + (0.5f - anchorX) * width
-    val centerY get() = attachY + (0.5f - anchorY) * height
-    val top get() = attachY - anchorY * height
-    val right get() = attachX + (1 - anchorX) * width
-    val bottom get() = attachY + (1 - anchorY) * height
-    val left get() = attachX - anchorX * width
+    val attachX get() = (cx + xr) * GRID_CELL_SIZE_F
+    val attachY get() = (cy + yr - zr) * GRID_CELL_SIZE_F
+    val centerX get() = attachX + (0.5f - anchorX) * WIDTH
+    val centerY get() = attachY + (0.5f - anchorY) * HEIGHT
+    val top get() = attachY - anchorY * HEIGHT
+    val right get() = attachX + (1 - anchorX) * WIDTH
+    val bottom get() = attachY + (1 - anchorY) * HEIGHT
+    val left get() = attachX - anchorX * WIDTH
 
     fun castRayTo(tcx: Int, tcy: Int, canRayPass: (Int, Int) -> Boolean) =
         castRay(cx, cy, tcx, tcy, canRayPass)

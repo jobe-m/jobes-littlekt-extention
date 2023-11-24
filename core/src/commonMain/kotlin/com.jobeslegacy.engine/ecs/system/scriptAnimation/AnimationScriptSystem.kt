@@ -3,9 +3,13 @@ package com.jobeslegacy.engine.ecs.system.scriptAnimation
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.ecs.component.*
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.PositionShapeY
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.PositionAndSizeComponentY
 import com.jobeslegacy.engine.ecs.component.AnimateProperty.MoveComponentVelocityX
 import com.jobeslegacy.engine.ecs.component.AnimateProperty.MoveComponentVelocityY
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentNumberOfObjects
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentInterval
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentTimeVariation
+import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentPositionVariation
 import com.jobeslegacy.engine.util.Easing
 import com.jobeslegacy.engine.ecs.component.MoveComponent
 import com.lehaine.littlekt.log.Logger
@@ -117,9 +121,9 @@ class AnimationScriptSystem : IteratingSystem(
 //                ) }
 //                tween.visible?.let { value -> createAnimateComponent(AppearanceVisible, value) }
 //            }
-            is TweenPositionShape -> tween.entity.getOrError(PositionShape).let { start ->
+            is TweenPositionAndSizeComponent -> tween.entity.getOrError(PositionAndSizeComponent).let { start ->
 //                tween.x?.let { end -> createAnimateComponent(PositionShapeX, start.x, end - start.x) }
-                tween.y?.let { end -> createAnimateComponent(PositionShapeY, start.y, end - start.y) }
+                tween.y?.let { end -> createAnimateComponent(PositionAndSizeComponentY, start.y, end - start.y) }
             }
             is TweenMoveComponent -> tween.entity.getOrError(MoveComponent).let { start ->
                 tween.velocityX?.let { end -> createAnimateComponent(MoveComponentVelocityX, start.velocityX , end - start.velocityX) }
@@ -158,12 +162,12 @@ class AnimationScriptSystem : IteratingSystem(
 //                tween.x?.let { end -> createAnimateComponent(NoisyMoveX, value = start.x, change = end - start.x) }
 //                tween.y?.let { end -> createAnimateComponent(NoisyMoveY, value = start.y, change = end - start.y) }
 //            }
-//            is TweenSpawner -> tween.entity.getOrError(Spawner).let { start ->
-//                tween.numberOfObjects?.let { end -> createAnimateComponent(SpawnerNumberOfObjects, start.numberOfObjects, end - start.numberOfObjects) }
-//                tween.interval?.let { end -> createAnimateComponent(SpawnerInterval, start.interval, end - start.interval) }
-//                tween.timeVariation?.let { end -> createAnimateComponent(SpawnerTimeVariation, start.timeVariation, end - start.timeVariation) }
-//                tween.positionVariation?.let { end -> createAnimateComponent(SpawnerPositionVariation, start.positionVariation, end - start.positionVariation) }
-//            }
+            is TweenSpawnerComponent -> tween.entity.getOrError(SpawnerComponent).let { start ->
+                tween.numberOfObjects?.let { end -> createAnimateComponent(SpawnerComponentNumberOfObjects, start.numberOfObjects, end - start.numberOfObjects) }
+                tween.interval?.let { end -> createAnimateComponent(SpawnerComponentInterval, start.interval, end - start.interval) }
+                tween.timeVariation?.let { end -> createAnimateComponent(SpawnerComponentTimeVariation, start.timeVariation, end - start.timeVariation) }
+                tween.positionVariation?.let { end -> createAnimateComponent(SpawnerComponentPositionVariation, start.positionVariation, end - start.positionVariation) }
+            }
 //            is TweenSound -> tween.entity.getOrError(Sound).let{ start ->
 //                tween.startTrigger?.let { value -> createAnimateComponent(SoundStartTrigger, value) }
 //                tween.stopTrigger?.let { value -> createAnimateComponent(SoundStopTrigger, value) }
@@ -183,15 +187,11 @@ class AnimationScriptSystem : IteratingSystem(
     }
 
     private fun createAnimateComponent(componentProperty: AnimateProperty, value: Any, change: Any = Unit) {
-//    private fun createAnimateComponent(componentType: ComponentType<AnimateComponent>, value: Any, change: Any = Unit) {
         currentTween.entity.configure { animatedEntity ->
-            logger.info { "ComponentProperty type: ${componentProperty.type}" }
+//            logger.info { "ComponentProperty type: ${componentProperty.type}" }
             logger.info { "ComponentProperty type id: ${componentProperty.type.id}" }
-//            logger.info { "ComponentType: ${componentType}" }
-//            logger.info { "getOrNull: ${animatedEntity.getOrNull(componentType)}" }
 //*
             animatedEntity.getOrAdd(componentProperty.type) { AnimateComponent(componentProperty) }.also {
-//            animatedEntity.getOrAdd(componentType) { AnimateComponent(componentType) }.also {
                 it.change = change
                 it.value = value
                 it.duration = currentTween.duration ?: currentParentTween.duration ?: 0f

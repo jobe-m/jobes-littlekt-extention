@@ -5,6 +5,10 @@ import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.ecs.component.AnimateComponent
 import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateMoveComponentVelocityX
 import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateMoveComponentVelocityY
+import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentNumberOfObjects
+import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentInterval
+import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentTimeVariation
+import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentPositionVariation
 import com.jobeslegacy.engine.ecs.component.*
 import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
@@ -120,23 +124,25 @@ class AnimateSpriteSystem(
         if (sprite.isPlaying) imageView.play(reverse = !sprite.forwardDirection, once = !sprite.loop)
     }
 }
+*/
 
-class AnimateSpawnerSystem : IteratingSystem(
-    family { all(Spawner).any(AnimateSpawnerNumberOfObjects, AnimateSpawnerInterval, AnimateSpawnerTimeVariation, AnimateSpawnerPositionVariation) },
+class AnimateSpawnerComponentSystem : IteratingSystem(
+    family { all(SpawnerComponent).any(AnimateSpawnerComponentNumberOfObjects, AnimateSpawnerComponentInterval, AnimateSpawnerComponentTimeVariation, AnimateSpawnerComponentPositionVariation) },
     interval = EachFrame
 ) {
     override fun onTickEntity(entity: Entity) {
-        val spawner = entity[Spawner]
-        updateProperty(entity, AnimateSpawnerNumberOfObjects, spawner::numberOfObjects)
-        updateProperty(entity, AnimateSpawnerInterval, spawner::interval) {
+        val spawner = entity[SpawnerComponent]
+        updateProperty(entity, AnimateSpawnerComponentNumberOfObjects, spawner::numberOfObjects)
+        updateProperty(entity, AnimateSpawnerComponentInterval, spawner::interval) {
             // Reset next spawn counter so that changed interval will be taken into account instantly
             spawner.nextSpawnIn = 0
         }
-        updateProperty(entity, AnimateSpawnerTimeVariation, spawner::timeVariation)
-        updateProperty(entity, AnimateSpawnerPositionVariation, spawner::positionVariation)
+        updateProperty(entity, AnimateSpawnerComponentTimeVariation, spawner::timeVariation)
+        updateProperty(entity, AnimateSpawnerComponentPositionVariation, spawner::positionVariation)
     }
 }
 
+/*
 class AnimateLifeCycleSystem : IteratingSystem(
     family { all(LifeCycle).any(AnimateLifeCycleHealthCounter) },
     interval = EachFrame
@@ -251,3 +257,9 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Anim
         }
     }
 }
+
+fun SystemConfiguration.addAnimateComponentSystems() {
+    add(AnimateMoveComponentSystem())
+    add(AnimateSpawnerComponentSystem())
+}
+
