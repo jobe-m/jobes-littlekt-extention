@@ -55,7 +55,6 @@ object FireAndDustEffect {
                 layerIndex = effectConfig.layerIndex
             )
             entity += AnimationComponent(
-                imageAnimationName = effectConfig.imageAnimationName,
                 destroyOnPlayingFinished = true,
                 isPlaying = true
             )

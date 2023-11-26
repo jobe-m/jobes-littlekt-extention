@@ -21,10 +21,11 @@ val onAnimatedSpriteFamilyAdded: FamilyHook = { entity ->
     val spriteComponent = entity[SpriteComponent]
     val animationComponent = entity[AnimationComponent]
 
-    // Load all animation frames and store into ...
-    val animation = Assets.atlas(spriteComponent.assetType).getAnimation(spriteComponent.imageName)
+    // TODO move this into AnimationSystem
+    // Load all animation frames
+    animationComponent.animation = Assets.atlas(spriteComponent.assetType).getAnimation(spriteComponent.imageName)
 
-    // TODO - store animation in animation system for each entity
+    // TODO - store animation in animation system for each entity - DONE
     //      - check what internal states of animation and/or animationplayer needs to be stored in animationComponent
 }
 

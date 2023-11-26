@@ -19,6 +19,9 @@ class AnimationComponent(
     var destroyOnPlayingFinished: Boolean = true,
 ) : Component<AnimationComponent> {
 
+    val noAnimation = Animation<TextureSlice>(frames = emptyList(), frameIndices = emptyList(), frameTimes = emptyList())
+    var animation: Animation<TextureSlice> = noAnimation
+
     private val player = AnimationPlayer<TextureSlice>()
 
     val totalFramesPlayed: Int get() = player.totalFramesPlayed
