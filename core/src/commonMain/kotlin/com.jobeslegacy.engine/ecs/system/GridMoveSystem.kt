@@ -10,13 +10,20 @@ import com.lehaine.littlekt.util.datastructure.Pool
 import kotlin.math.abs
 import kotlin.math.ceil
 
+object GridSystemConfig {
+    const val GRID_CELL_SIZE: Int = 16
+    const val GRID_CELL_SIZE_F: Float = GRID_CELL_SIZE.toFloat()
+    const val WIDTH: Float = GRID_CELL_SIZE_F
+    const val HEIGHT: Float = GRID_CELL_SIZE_F
+}
+
 /**
  * @author Colton Daily
  * @date 3/9/2023
  */
 class GridMoveSystem(
     private val gridCollisionPool: Pool<GridCollisionResultComponent>? = null,
-    interval: Interval = Fixed(1 / 30f)
+    interval: Interval = Fixed(1 / 60f)
 ) : IteratingSystem(family = family { all(MoveComponent, GridComponent) }, interval = interval) {
 
     override fun onTickEntity(entity: Entity) {
@@ -53,9 +60,9 @@ class GridMoveSystem(
                             grid.yr,
                             move.velocityX,
                             move.velocityY,
-                            grid.width,
-                            grid.height,
-                            grid.gridCellSize
+                            GridSystemConfig.WIDTH,
+                            GridSystemConfig.HEIGHT,
+                            GridSystemConfig.GRID_CELL_SIZE_F
                         )
                         val result = collision.checker.checkXCollision(
                             grid.cx,
@@ -64,9 +71,9 @@ class GridMoveSystem(
                             grid.yr,
                             move.velocityX,
                             move.velocityY,
-                            grid.width,
-                            grid.height,
-                            grid.gridCellSize
+                            GridSystemConfig.WIDTH,
+                            GridSystemConfig.HEIGHT,
+                            GridSystemConfig.GRID_CELL_SIZE_F
                         )
                         if (result != 0 && gridCollisionPool != null) {
                             entity.configure {
@@ -99,9 +106,9 @@ class GridMoveSystem(
                             grid.yr,
                             move.velocityX,
                             move.velocityY,
-                            grid.width,
-                            grid.height,
-                            grid.gridCellSize
+                            GridSystemConfig.WIDTH,
+                            GridSystemConfig.HEIGHT,
+                            GridSystemConfig.GRID_CELL_SIZE_F
                         )
                         val result = collision.checker.checkYCollision(
                             grid.cx,
@@ -110,9 +117,9 @@ class GridMoveSystem(
                             grid.yr,
                             move.velocityX,
                             move.velocityY,
-                            grid.width,
-                            grid.height,
-                            grid.gridCellSize
+                            GridSystemConfig.WIDTH,
+                            GridSystemConfig.HEIGHT,
+                            GridSystemConfig.GRID_CELL_SIZE_F
                         )
                         if (result != 0 && gridCollisionPool != null) {
                             entity.configure {

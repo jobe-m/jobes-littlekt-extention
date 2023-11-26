@@ -5,6 +5,7 @@ import com.jobeslegacy.engine.ecs.component.GridCollisionResultComponent
 import com.jobeslegacy.engine.ecs.component.GridComponent
 import com.jobeslegacy.engine.ecs.component.MoveComponent
 import com.jobeslegacy.engine.ecs.logic.collision.checker.LevelCollisionChecker
+import com.jobeslegacy.engine.ecs.system.GridSystemConfig
 import kotlin.math.floor
 
 /**
@@ -43,7 +44,7 @@ object LevelCollisionResolver : CollisionResolver() {
         val checker = collision.checker
         if (checker is LevelCollisionChecker) {
             val heightCoordDiff =
-                if (checker.useTopCollisionRatio) checker.topCollisionRatio else floor(grid.height / grid.gridCellSize)
+                if (checker.useTopCollisionRatio) checker.topCollisionRatio else floor(GridSystemConfig.HEIGHT / GridSystemConfig.GRID_CELL_SIZE_F)
             if (collisionResult.dir == -1) {
                 grid.yr = heightCoordDiff
                 move.velocityY = 0f

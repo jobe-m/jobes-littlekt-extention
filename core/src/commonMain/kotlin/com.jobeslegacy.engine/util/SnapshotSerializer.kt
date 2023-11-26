@@ -1,9 +1,7 @@
 package com.jobeslegacy.engine.util
 
 import com.github.quillraven.fleks.Component
-import com.github.quillraven.fleks.ComponentType
 import com.github.quillraven.fleks.Entity
-import com.jobeslegacy.engine.component.*
 import com.jobeslegacy.engine.ecs.component.*
 import kotlinx.serialization.*
 import kotlinx.serialization.descriptors.PrimitiveKind
@@ -90,13 +88,13 @@ internal val internalModule = SerializersModule {
         subclass(ExecuteConfigFunction::class)
         subclass(DeleteEntity::class)
 //        subclass(TweenAppearance::class)
-        subclass(TweenPositionShape::class)
+        subclass(TweenPositionAndSizeComponent::class)
         subclass(TweenOffset::class)
         subclass(TweenLayout::class)
         subclass(TweenSprite::class)
         subclass(TweenSwitchLayerVisibility::class)
         subclass(TweenNoisyMove::class)
-        subclass(TweenSpawner::class)
+        subclass(TweenSpawnerComponent::class)
         subclass(TweenSound::class)
     }
 }

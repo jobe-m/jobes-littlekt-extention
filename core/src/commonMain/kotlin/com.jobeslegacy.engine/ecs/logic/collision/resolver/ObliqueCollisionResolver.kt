@@ -6,6 +6,7 @@ import com.jobeslegacy.engine.ecs.component.GridComponent
 import com.jobeslegacy.engine.ecs.component.MoveComponent
 import com.jobeslegacy.engine.ecs.logic.collision.checker.CollisionChecker
 import com.jobeslegacy.engine.ecs.logic.collision.checker.ObliqueCollisionChecker
+import com.jobeslegacy.engine.ecs.system.GridSystemConfig
 import kotlin.math.floor
 
 /**
@@ -115,7 +116,7 @@ class ObliqueCollisionResolver : CollisionResolver() {
         val checker = collision.checker
         if (checker is ObliqueCollisionChecker) {
             val heightCoordDiff =
-                if (checker.useTopCollisionRatio) checker.topCollisionRatio else floor(grid.height / grid.gridCellSize)
+                if (checker.useTopCollisionRatio) checker.topCollisionRatio else floor(GridSystemConfig.HEIGHT / GridSystemConfig.GRID_CELL_SIZE_F)
             // check top collision
             if (collisionResult.dir == -1) {
                 grid.yr = heightCoordDiff

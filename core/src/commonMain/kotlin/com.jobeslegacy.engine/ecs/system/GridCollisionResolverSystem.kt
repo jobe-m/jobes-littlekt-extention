@@ -8,7 +8,7 @@ import com.jobeslegacy.engine.ecs.component.*
  * @date 3/10/2023
  */
 class GridCollisionResolverSystem(
-    interval: Interval = Fixed(1 / 30f)
+    interval: Interval = Fixed(1 / 60f)
 ) : IteratingSystem(family = World.family {
     all(GridComponent, MoveComponent, GridCollisionComponent, GridCollisionResolverComponent).any(
         GridCollisionResultComponent.GridCollisionX,

@@ -10,8 +10,9 @@ import com.jobeslegacy.engine.ecs.component.SpriteComponent
  * @author Colton Daily
  * @date 3/9/2023
  */
-class AnimationSystem : IteratingSystem(family { all(SpriteComponent, AnimationComponent) }) {
-
+class AnimationSystem : IteratingSystem(
+    family { all(SpriteComponent, AnimationComponent) }
+) {
     override fun onTickEntity(entity: Entity) {
         val sprite = entity[SpriteComponent]
         val animation = entity[AnimationComponent]

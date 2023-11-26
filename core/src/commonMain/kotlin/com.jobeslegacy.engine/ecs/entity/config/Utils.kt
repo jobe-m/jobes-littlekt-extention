@@ -5,6 +5,8 @@ import com.github.quillraven.fleks.World
 import com.jobeslegacy.engine.util.Identifier
 
 
+interface ConfigBase
+
 /**
  * The invalidEntity is used to initialize entity properties of components.
  * This entity is not existing and thus should never be created in a Fleks world.

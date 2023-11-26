@@ -12,7 +12,16 @@ import kotlin.time.Duration.Companion.milliseconds
  * @author Colton Daily
  * @date 3/9/2023
  */
-class AnimationComponent : Component<AnimationComponent> {
+class AnimationComponent(
+    var isPlaying: Boolean = false,
+    var forwardDirection: Boolean = true,
+    var loop: Boolean = false,
+    var destroyOnPlayingFinished: Boolean = true,
+) : Component<AnimationComponent> {
+
+    val noAnimation = Animation<TextureSlice>(frames = emptyList(), frameIndices = emptyList(), frameTimes = emptyList())
+    var animation: Animation<TextureSlice> = noAnimation
+
     private val player = AnimationPlayer<TextureSlice>()
 
     val totalFramesPlayed: Int get() = player.totalFramesPlayed
@@ -55,7 +64,7 @@ class AnimationComponent : Component<AnimationComponent> {
 
     fun stop() = player.stop()
 
-    override fun type(): ComponentType<AnimationComponent> = AnimationComponent
+    override fun type() = AnimationComponent
 
     companion object : ComponentType<AnimationComponent>()
 }
