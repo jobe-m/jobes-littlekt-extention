@@ -87,7 +87,7 @@ data class NoisyMoveComponent(
 
     }
 
-    fun updateAnimateComponent(world: World, entity: Entity, componentProperty: AnimateProperty, value: Any, change: Any = Unit, duration: Float? = null, easing: Easing? = null) = with (world) {
+    fun updateAnimateComponent(world: World, entity: Entity, componentProperty: TweenProperty, value: Any, change: Any = Unit, duration: Float? = null, easing: Easing? = null) = with (world) {
         entity.configure { animatedEntity ->
 /* TODO
             animatedEntity.getOrAdd(componentProperty.type) { AnimateComponent(componentProperty) }.also {

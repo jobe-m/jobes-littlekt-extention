@@ -16,7 +16,7 @@ import kotlinx.serialization.Serializable
  * This component holds all needed details to animate an entity's component.
  */
 @Serializable @SerialName("AnimationScript")
-data class AnimationScript(
+data class TweenScript(
     var tweens: List<TweenBase> = listOf(),
 
     // Internal runtime data
@@ -25,8 +25,8 @@ data class AnimationScript(
     var waitTime: Float = 0f,
     var active: Boolean = false,
     var initialized: Boolean = false
-) : Component<AnimationScript>, SerializeBase {
-    override fun type() = AnimationScript
+) : Component<TweenScript>, SerializeBase {
+    override fun type() = TweenScript
 
     /**
      * Initialize internal waitTime property with delay value of first tweens if available.
@@ -40,7 +40,7 @@ data class AnimationScript(
 
     override fun World.onRemove(entity: Entity) { /* not used here */ }
 
-    companion object : ComponentType<AnimationScript>()
+    companion object : ComponentType<TweenScript>()
 }
 
 interface TweenBase {
@@ -54,7 +54,7 @@ interface TweenBase {
  * Animation Component data classes based on TweenBase
  */
 @Serializable @SerialName("AnimationScript.TweenSequence")
-data class TweenSequence(
+data class SequenceOfTweens(
     val tweens: List<TweenBase> = listOf(),   // tween objects which contain entity and its properties to be animated in sequence
 
     override var entity: Entity = invalidEntity, // not used
@@ -192,6 +192,7 @@ data class TweenLayout(
 
 @Serializable @SerialName("AnimationScript.TweenSprite")
 data class TweenSprite(
+    var startAnimation: Boolean? = null,
     var animationName: String? = null,
     var isPlaying: Boolean? = null,
     var forwardDirection: Boolean? = null,

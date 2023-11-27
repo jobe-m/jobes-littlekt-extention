@@ -6,6 +6,7 @@ import com.github.quillraven.fleks.Interval
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.ecs.component.*
+import com.jobeslegacy.engine.util.EntityByName
 import com.lehaine.littlekt.util.datastructure.Pool
 import kotlin.math.abs
 import kotlin.math.ceil
@@ -24,7 +25,10 @@ object GridSystemConfig {
 class GridMoveSystem(
     private val gridCollisionPool: Pool<GridCollisionResultComponent>? = null,
     interval: Interval = Fixed(1 / 60f)
-) : IteratingSystem(family = family { all(MoveComponent, GridComponent) }, interval = interval) {
+) : IteratingSystem(
+    family = family { all(MoveComponent, GridComponent) },
+    interval = interval
+) {
 
     override fun onTickEntity(entity: Entity) {
         val move = entity[MoveComponent]

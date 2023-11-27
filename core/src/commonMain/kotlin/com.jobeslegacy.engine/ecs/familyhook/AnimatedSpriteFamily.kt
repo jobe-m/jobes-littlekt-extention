@@ -3,11 +3,8 @@ package com.jobeslegacy.engine.ecs.familyhook
 import com.github.quillraven.fleks.Family
 import com.github.quillraven.fleks.FamilyHook
 import com.github.quillraven.fleks.World
-import com.jobeslegacy.engine.asset.Assets
 import com.jobeslegacy.engine.ecs.component.AnimationComponent
-import com.jobeslegacy.engine.ecs.component.AssetType
 import com.jobeslegacy.engine.ecs.component.SpriteComponent
-import com.lehaine.littlekt.graphics.g2d.getAnimation
 
 
 /**
@@ -21,14 +18,10 @@ val onAnimatedSpriteFamilyAdded: FamilyHook = { entity ->
     val spriteComponent = entity[SpriteComponent]
     val animationComponent = entity[AnimationComponent]
 
-    // TODO move this into AnimationSystem
-    // Load all animation frames
-    animationComponent.animation = Assets.atlas(spriteComponent.assetType).getAnimation(spriteComponent.imageName)
-
-    // TODO - store animation in animation system for each entity - DONE
-    //      - check what internal states of animation and/or animationplayer needs to be stored in animationComponent
+//    val animationPlayerCache = inject<AnimationPlayerCache>("AnimationPlayerCache")
+//    animationPlayerCache.resetPlayer(entity, animationComponent)
 }
 
 val onAnimatedSpriteFamilyRemoved: FamilyHook = { entity ->
-    entity[SpriteComponent].slice = null
+    // nothing to do
 }

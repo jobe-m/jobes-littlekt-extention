@@ -5,8 +5,6 @@ import com.github.quillraven.fleks.World
 import com.jobeslegacy.engine.util.Identifier
 
 
-interface ConfigBase
-
 /**
  * The invalidEntity is used to initialize entity properties of components.
  * This entity is not existing and thus should never be created in a Fleks world.
@@ -17,7 +15,7 @@ fun Entity.isInvalidEntity() : Boolean = this.id == -1
 /**
  * Object which is used to initialize [Identifier] component properties.
  */
-val nothing = Identifier(name = "nothing")
+val nothing = Identifier(string = "nothing")
 
 typealias InvokableFunction = (World, Entity, Identifier) -> Entity
 
@@ -35,8 +33,8 @@ object Invokable {
         map[name] = invokableFct
     }
 
-    fun unregister(name: Identifier) : InvokableFunction = map.remove(name) ?: throw Exception("Cannot unregister! Function with name '${name.name}' not registered in Invokables!")
+    fun unregister(name: Identifier) : InvokableFunction = map.remove(name) ?: throw Exception("Cannot unregister! Function with name '${name.string}' not registered in Invokables!")
 
     fun invoke(name: Identifier, world: World, entity: Entity, config: Identifier) : Entity =
-        map[name]?.invoke(world, entity, config) ?: throw Exception("Cannot invoke! Function with name '${name.name}' not registered in Invokables!")
+        map[name]?.invoke(world, entity, config) ?: throw Exception("Cannot invoke! Function with name '${name.string}' not registered in Invokables!")
 }

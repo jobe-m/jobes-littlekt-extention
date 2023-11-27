@@ -1,25 +1,20 @@
-package com.jobeslegacy.engine.ecs.system.scriptAnimation
+package com.jobeslegacy.engine.ecs.system.tweenscripting
 
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.ecs.component.*
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.PositionAndSizeComponentY
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.MoveComponentVelocityX
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.MoveComponentVelocityY
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentNumberOfObjects
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentInterval
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentTimeVariation
-import com.jobeslegacy.engine.ecs.component.AnimateProperty.SpawnerComponentPositionVariation
+import com.jobeslegacy.engine.ecs.component.TweenProperty.*
 import com.jobeslegacy.engine.util.Easing
 import com.jobeslegacy.engine.ecs.component.MoveComponent
+import com.jobeslegacy.engine.ecs.entity.config.Invokable
 import com.lehaine.littlekt.log.Logger
 
 
 /**
  * This system creates Animate... components on entities which should be animated according to the game config.
  */
-class AnimationScriptSystem : IteratingSystem(
-    family { all(AnimationScript) },
+class TweenScriptSystem : IteratingSystem(
+    family { all(TweenScript) },
     interval = EachFrame
 ) {
     // Internally used variables in createAnimateComponent function
@@ -50,7 +45,7 @@ class AnimationScriptSystem : IteratingSystem(
      * Finally, it checks if the animation script has reached the end. If so it removes the AnimationScript component again from the entity.
      */
     override fun onTickEntity(entity: Entity) {
-        val animScript = entity[AnimationScript]
+        val animScript = entity[TweenScript]
 
         if (animScript.timeProgress >= animScript.waitTime) {
             animScript.timeProgress = 0f
@@ -58,10 +53,10 @@ class AnimationScriptSystem : IteratingSystem(
             if (animScript.index >= animScript.tweens.size) {
                 world -= entity
             } else when (val currentTween = animScript.tweens[animScript.index]) {
-                is TweenSequence -> {
+                is SequenceOfTweens -> {
                     var nextTween: TweenBase? = currentTween
-                    while (nextTween is TweenSequence) {
-                        world.entity { it += AnimationScript(tweens = (nextTween as TweenSequence).tweens) }
+                    while (nextTween is SequenceOfTweens) {
+                        world.entity { it += TweenScript(tweens = (nextTween as SequenceOfTweens).tweens) }
                         nextTween = checkNextTween(animScript, entity)
                         if (nextTween == null) break
                     }
@@ -78,7 +73,7 @@ class AnimationScriptSystem : IteratingSystem(
                                 // Check if tween has an own delay and spawn a new AnimationSequence for it
                                 if (tween.delay != null && tween.delay!! > 0f) {
                                     world.entity {
-                                        it += AnimationScript(
+                                        it += TweenScript(
                                             tweens = listOf(
                                                 tween.also { tween ->
                                                     if (tween.duration == null) tween.duration = currentTween.duration ?: 0f
@@ -97,7 +92,7 @@ class AnimationScriptSystem : IteratingSystem(
         } else animScript.timeProgress += deltaTime
     }
 
-    private fun checkNextTween(animScript: AnimationScript, entity: Entity) : TweenBase? {
+    private fun checkNextTween(animScript: TweenScript, entity: Entity) : TweenBase? {
         animScript.index++
         animScript.active = false
         return if (animScript.index >= animScript.tweens.size) {
@@ -139,13 +134,14 @@ class AnimationScriptSystem : IteratingSystem(
 //                tween.offsetX?.let { end -> createAnimateComponent(LayoutOffsetX, start.offsetX, end - start.offsetX) }
 //                tween.offsetY?.let { end -> createAnimateComponent(LayoutOffsetY, start.offsetY, end - start.offsetY) }
 //            }
-//            is TweenSprite -> tween.entity.getOrError(Sprite).let { _ ->  // make sure to-be-animated-entity is of type sprite
+            is TweenSprite -> tween.entity.getOrError(SpriteComponent).let { _ ->  // make sure to-be-animated-entity is of type sprite
+                tween.startAnimation?.let { value -> createAnimateComponent(TweenSpriteComponentPlayOnce, value) }
 //                tween.animationName?.let { value -> createAnimateComponent(SpriteAnimName, value) }
 //                tween.isPlaying?.let { value -> createAnimateComponent(SpriteIsPlaying, value) }
 //                tween.forwardDirection?.let { value -> createAnimateComponent(SpriteForwardDirection, value) }
 //                tween.loop?.let { value -> createAnimateComponent(SpriteLoop, value) }
 //                tween.destroyOnPlayingFinished?.let { value -> createAnimateComponent(SpriteDestroyOnPlayingFinished, value) }
-//            }
+            }
 //            is TweenSwitchLayerVisibility -> tween.entity.getOrError(SwitchLayerVisibility).let { start ->
 //                tween.offVariance?.let { end -> createAnimateComponent(SwitchLayerVisibilityOnVariance, value = start.offVariance, change = end - start.offVariance) }
 //                tween.onVariance?.let { end -> createAnimateComponent(SwitchLayerVisibilityOffVariance, start.onVariance, end - start.onVariance) }
@@ -181,24 +177,20 @@ class AnimationScriptSystem : IteratingSystem(
 //            }
 //            // A special type of TweenLifeCycle (to be created if needed) which directly changes the LifeCycle component
 //            is DeleteEntity -> tween.entity.configure { entityToDelete -> world -= entityToDelete }
-//            is ExecuteConfigFunction -> Invokable.invoke(tween.function, world, tween.entity, tween.config)
+            is ExecuteConfigFunction -> Invokable.invoke(tween.function, world, tween.entity, tween.config)
             else -> error("AnimationScriptSystem: Animate function for tween $tween is not implemented!")
         }
     }
 
-    private fun createAnimateComponent(componentProperty: AnimateProperty, value: Any, change: Any = Unit) {
+    private fun createAnimateComponent(componentProperty: TweenProperty, value: Any, change: Any = Unit) {
         currentTween.entity.configure { animatedEntity ->
-//            logger.info { "ComponentProperty type: ${componentProperty.type}" }
-            logger.info { "ComponentProperty type id: ${componentProperty.type.id}" }
-//*
-            animatedEntity.getOrAdd(componentProperty.type) { AnimateComponent(componentProperty) }.also {
+            animatedEntity.getOrAdd(componentProperty.type) { TweenComponent(componentProperty) }.also {
                 it.change = change
                 it.value = value
                 it.duration = currentTween.duration ?: currentParentTween.duration ?: 0f
                 it.timeProgress = 0f
                 it.easing = currentTween.easing ?: currentParentTween.easing ?: Easing.LINEAR
             }
-// */
         }
     }
 

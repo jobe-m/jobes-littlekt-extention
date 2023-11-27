@@ -36,7 +36,7 @@ typealias FleksSnapshotOf = List<Component<*>>  // snapshot data of one entity
  * Since strings can have typos which are not realized at compile time.
  */
 @JvmInline @Serializable
-value class Identifier(val name: String)
+value class Identifier(val string: String)
 
 @JvmInline
 value class Ident<T>(val value: T)
@@ -51,7 +51,7 @@ internal val internalModule = SerializersModule {
     // Top level component classes
     polymorphic(Component::class) {
 //        subclass(AnimateComponent::class)
-        subclass(AnimationScript::class, AnimationScript.serializer())
+        subclass(TweenScript::class, TweenScript.serializer())
 //        subclass(Info::class)
 //        subclass(Drawable::class)
 //        subclass(Appearance::class)
@@ -81,7 +81,7 @@ internal val internalModule = SerializersModule {
     }
     // Data class hierarchy used for AnimationScript component
     polymorphic(TweenBase::class) {
-        subclass(TweenSequence::class)
+        subclass(SequenceOfTweens::class)
         subclass(ParallelTweens::class)
         subclass(Wait::class)
         subclass(SpawnEntity::class)

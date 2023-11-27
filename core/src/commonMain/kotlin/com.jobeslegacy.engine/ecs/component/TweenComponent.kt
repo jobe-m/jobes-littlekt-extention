@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 
 /**
  * Generalized Animate Component Property data class. It is used for animating properties of other components
- * via the [AnimationScript] components and one of the systems in AnimateSystems.kt file.
+ * via the [TweenScript] components and one of the systems in AnimateSystems.kt file.
  *
  * value:  This is set to the previous or initial value
  * change: Value with which last value needs to be changed to reach the target value of the animation step
@@ -17,8 +17,8 @@ import kotlinx.serialization.Serializable
  * In case of single switch: This value is set when easing > 0.5
  */
 @Serializable @SerialName("AnimateComponent")
-data class AnimateComponent (
-    var animateProperty: AnimateProperty,
+data class TweenComponent (
+    var tweenProperty: TweenProperty,
 
     @Serializable(with = AnySerializer::class)
     var change: Any = Unit,
@@ -29,8 +29,8 @@ data class AnimateComponent (
     var timeProgress: Float = 0f,                // in seconds
     @Serializable(with = EasingSerializer::class)
     var easing: Easing = Easing.LINEAR           // Changing function
-) : Component<AnimateComponent>, SerializeBase {
-    override fun type() = animateProperty.type
+) : Component<TweenComponent>, SerializeBase {
+    override fun type() = tweenProperty.type
 
     companion object {
         // TODO upate unit test for this mapping from enum to here
@@ -38,6 +38,9 @@ data class AnimateComponent (
     // Author's note:
     // 1. Make sure new AnimationComponent names are added both here and in the AnimateProperties enum class
     // 2. Make sure the name is the same, otherwise animate systems will behave confusingly
+        // TODO check if we rename this to SpriteStartAnimation ?
+        val TweenAnimationComponentStart = TweenProperty.TweenSpriteComponentPlayOnce.type
+
 /*
         val AnimateSpriteIsPlaying = AnimateProperty.
         val AnimateSpriteForwardDirection = AnimateProperty.
@@ -49,18 +52,18 @@ data class AnimateComponent (
         val AnimateAppearanceTint = AnimateProperty.
         val AnimateAppearanceVisible = AnimateProperty.
 */
-        val AnimateSpawnerComponentNumberOfObjects = AnimateProperty.SpawnerComponentNumberOfObjects.type
-        val AnimateSpawnerComponentInterval = AnimateProperty.SpawnerComponentInterval.type
-        val AnimateSpawnerComponentTimeVariation = AnimateProperty.SpawnerComponentTimeVariation.type
-        val AnimateSpawnerComponentPositionVariation = AnimateProperty.SpawnerComponentPositionVariation.type
+        val AnimateSpawnerComponentNumberOfObjects = TweenProperty.SpawnerComponentNumberOfObjects.type
+        val AnimateSpawnerComponentInterval = TweenProperty.SpawnerComponentInterval.type
+        val AnimateSpawnerComponentTimeVariation = TweenProperty.SpawnerComponentTimeVariation.type
+        val AnimateSpawnerComponentPositionVariation = TweenProperty.SpawnerComponentPositionVariation.type
 /*
         val AnimateLifeCycleHealthCounter = AnimateProperty.
 */
-        val AnimatePositionAndSizeComponentX = AnimateProperty.PositionAndSizeComponentX.type
-        val AnimatePositionAndSizeComponentY = AnimateProperty.PositionAndSizeComponentY.type
+        val AnimatePositionAndSizeComponentX = TweenProperty.PositionAndSizeComponentX.type
+        val AnimatePositionAndSizeComponentY = TweenProperty.PositionAndSizeComponentY.type
         
-        val AnimateMoveComponentVelocityX = AnimateProperty.MoveComponentVelocityX.type
-        val AnimateMoveComponentVelocityY = AnimateProperty.MoveComponentVelocityY.type
+        val AnimateMoveComponentVelocityX = TweenProperty.MoveComponentVelocityX.type
+        val AnimateMoveComponentVelocityY = TweenProperty.MoveComponentVelocityY.type
 /*
         val AnimateOffsetX = AnimateProperty.
         val AnimateOffsetY = AnimateProperty.
@@ -88,23 +91,24 @@ data class AnimateComponent (
         val AnimateSoundStopTrigger = AnimateProperty.
         val AnimateSoundPosition = AnimateProperty.
         val AnimateSoundVolume = AnimateProperty.
-
-        val ExecuteConfigureFunction = AnimateProperty.
 */
+        val ExecuteConfigureFunction = TweenProperty.ConfigureFunction.type
     }
 }
 
 //enum class AnimateComp(val type: )
 
 /**
- * All final AnimateComponent names are organized in this enum. This is done to easily serialize the
+ * All final [TweenComponent] names are organized in this enum. This is done to easily serialize the
  * animateProperty of the base AnimateComponent data class.
  */
-enum class AnimateProperty(val type: ComponentType<AnimateComponent>) {
-    PositionAndSizeComponentX(componentTypeOf<AnimateComponent>()),
-    PositionAndSizeComponentY(componentTypeOf<AnimateComponent>()),
-    MoveComponentVelocityX(componentTypeOf<AnimateComponent>()),
-    MoveComponentVelocityY(componentTypeOf<AnimateComponent>()),
+enum class TweenProperty(val type: ComponentType<TweenComponent>) {
+    TweenSpriteComponentPlayOnce(componentTypeOf<TweenComponent>()),
+
+    PositionAndSizeComponentX(componentTypeOf<TweenComponent>()),
+    PositionAndSizeComponentY(componentTypeOf<TweenComponent>()),
+    MoveComponentVelocityX(componentTypeOf<TweenComponent>()),
+    MoveComponentVelocityY(componentTypeOf<TweenComponent>()),
 
 /*    SpriteIsPlaying(AnimateComponent.AnimateSpriteIsPlaying),
     SpriteForwardDirection(AnimateComponent.AnimateSpriteForwardDirection),
@@ -116,10 +120,10 @@ enum class AnimateProperty(val type: ComponentType<AnimateComponent>) {
     AppearanceTint(AnimateComponent.AnimateAppearanceTint),
     AppearanceVisible(AnimateComponent.AnimateAppearanceVisible),
 */
-    SpawnerComponentNumberOfObjects(componentTypeOf<AnimateComponent>()),
-    SpawnerComponentInterval(componentTypeOf<AnimateComponent>()),
-    SpawnerComponentTimeVariation(componentTypeOf<AnimateComponent>()),
-    SpawnerComponentPositionVariation(componentTypeOf<AnimateComponent>()),
+    SpawnerComponentNumberOfObjects(componentTypeOf<TweenComponent>()),
+    SpawnerComponentInterval(componentTypeOf<TweenComponent>()),
+    SpawnerComponentTimeVariation(componentTypeOf<TweenComponent>()),
+    SpawnerComponentPositionVariation(componentTypeOf<TweenComponent>()),
 /*
     // TODO not used yet in animation system
     LifeCycleHealthCounter(AnimateComponent.AnimateLifeCycleHealthCounter),
@@ -157,6 +161,7 @@ enum class AnimateProperty(val type: ComponentType<AnimateComponent>) {
     SoundPosition(AnimateComponent.AnimateSoundPosition),
     SoundVolume(AnimateComponent.AnimateSoundVolume),
 
-    ConfigureFunction(AnimateComponent.ExecuteConfigureFunction)
 */
+
+    ConfigureFunction(componentTypeOf<TweenComponent>()),
 }

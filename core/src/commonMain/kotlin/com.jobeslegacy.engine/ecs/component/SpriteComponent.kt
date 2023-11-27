@@ -22,7 +22,7 @@ enum class AssetType{
 //TODO @Serializable @SerialName("Sprite")
 data class SpriteComponent(
     var assetType: AssetType = AssetType.COMMON,
-    var imageName: String = "fxPixel",  // this is always available from common assets
+    var assetName: String = "fxPixel",  // this is always available from common assets
     /**
      * Flips the current rendering of the [Sprite] horizontally.
      */
@@ -61,7 +61,7 @@ data class SpriteComponent(
     companion object : ComponentType<SpriteComponent>()
 
     override fun World.onAdd(entity: Entity) {
-        slice = Assets.atlas(assetType).getByPrefix(imageName).slice
+        slice = Assets.atlas(assetType).getByPrefix(assetName).slice
     }
 
     override fun World.onRemove(entity: Entity) {

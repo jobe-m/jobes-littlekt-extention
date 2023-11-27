@@ -1,7 +1,6 @@
 package com.jobeslegacy.engine.asset
 
 import com.jobeslegacy.engine.ecs.component.AssetType
-import com.jobeslegacy.engine.ecs.entity.config.ConfigBase
 import com.jobeslegacy.engine.util.Identifier
 import com.jobeslegacy.engine.util.Level
 import com.lehaine.littlekt.AssetProvider
@@ -40,10 +39,6 @@ class Assets private constructor(context: Context) : Disposable {
         ).content
     }
 
-    val entityConfigs: MutableMap<String, ConfigBase> = mutableMapOf()
-
-
-
     override fun dispose() {
         map.dispose()
         mapLoader.dispose()
@@ -67,16 +62,6 @@ class Assets private constructor(context: Context) : Disposable {
         val level: Level get() = INSTANCE.level
         val pixelFont: BitmapFont get() = INSTANCE.pixelFont
         val provider: AssetProvider get() = INSTANCE.provider
-
-        fun <T : ConfigBase> addEntityConfig(identifier: Identifier, entityConfig: T) {
-            INSTANCE.entityConfigs[identifier.name] = entityConfig
-        }
-
-        inline fun <reified T : ConfigBase> getEntityConfig(identifier: Identifier) : T {
-            val config: ConfigBase = INSTANCE.entityConfigs[identifier.name] ?: error("AssetStore - getConfig: No config found for configId name '${identifier.name}'!")
-            if (config !is T) error("AssetStore - getConfig: Config for '${identifier.name}' is not of type ${T::class}!")
-            return config
-        }
 
         @OptIn(ExperimentalContracts::class)
         fun createInstance(context: Context, onLoad: () -> Unit): Assets {

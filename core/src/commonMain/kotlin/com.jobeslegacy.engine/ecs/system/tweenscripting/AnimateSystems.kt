@@ -1,15 +1,17 @@
-package com.jobeslegacy.engine.ecs.system.scriptAnimation
+package com.jobeslegacy.engine.ecs.system.tweenscripting
 
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
-import com.jobeslegacy.engine.ecs.component.AnimateComponent
-import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateMoveComponentVelocityX
-import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateMoveComponentVelocityY
-import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentNumberOfObjects
-import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentInterval
-import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentTimeVariation
-import com.jobeslegacy.engine.ecs.component.AnimateComponent.Companion.AnimateSpawnerComponentPositionVariation
+import com.jobeslegacy.engine.ecs.component.TweenComponent
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateMoveComponentVelocityX
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateMoveComponentVelocityY
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateSpawnerComponentNumberOfObjects
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateSpawnerComponentInterval
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateSpawnerComponentTimeVariation
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateSpawnerComponentPositionVariation
 import com.jobeslegacy.engine.ecs.component.*
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.TweenAnimationComponentStart
+import com.lehaine.littlekt.log.Logger
 import kotlin.jvm.JvmName
 import kotlin.reflect.KMutableProperty0
 
@@ -20,7 +22,7 @@ import kotlin.reflect.KMutableProperty0
  *
  * Thus, for starting an animation for an entity it is sufficient to add the desired "Animate" component to the entity.
  * When the animation is over than the Animate component is removed again from the entity.
- * Adding "Animate" components can be done e.g. by the [AnimationScript] Component configuration.
+ * Adding "Animate" components can be done e.g. by the [TweenScript] Component configuration.
  */
 /*
 class AnimateAppearanceSystem : IteratingSystem(
@@ -88,7 +90,7 @@ class AnimatePositionShapeSystem : IteratingSystem(
 */
 
 
-class AnimateMoveComponentSystem : IteratingSystem(
+class MoveTweenSystem : IteratingSystem(
     family { any(AnimateMoveComponentVelocityX, AnimateMoveComponentVelocityY) },
     interval = EachFrame
 ) {
@@ -100,15 +102,33 @@ class AnimateMoveComponentSystem : IteratingSystem(
     }
 }
 
-/*
-class AnimateSpriteSystem(
-    private val korgeViewCache: KorgeViewCache = inject("KorgeViewCache")
-) : IteratingSystem(
-    family { all(Sprite).any(AnimateSpriteAnimName, AnimateSpriteIsPlaying, AnimateSpriteForwardDirection, AnimateSpriteLoop, AnimateSpriteDestroyOnPlayingFinished) },
+class SpriteTweenSystem : IteratingSystem(
+    family { all(SpriteComponent, AnimationComponent, TweenAnimationComponentStart) },
+//    family { all(SpriteComponent).any(AnimateAnimationComponentStart) }, // AnimateSpriteAnimName, AnimateSpriteIsPlaying, AnimateSpriteForwardDirection, AnimateSpriteLoop, AnimateSpriteDestroyOnPlayingFinished) },
     interval = EachFrame
 ) {
+    private val logger = Logger("AnimateSpriteSystem")
     override fun onTickEntity(entity: Entity) {
-        val sprite = entity[Sprite]
+/*        val sprite = entity[SpriteComponent]
+        with(entity[AnimationComponent]) {
+            // Create animation
+            animation = Assets.atlas(sprite.assetType).getAnimation(sprite.assetName)
+//            player.onFrameChange = { index ->
+//                logger.info { "index: $index" }
+//                logger.info { "total frames: $totalFrames  - frames played: $totalFramesPlayed" }
+//                logger.info { "current frame idx: $currentFrameIdx" }
+//                logger.info { "time: $time" }
+//            }
+            player.onAnimationFinish = {
+                world -= entity
+                logger.info { "anim finished, deleting entity: ${entity.id}" }
+            }
+            player.play(animation = animation, times = 2)  // TODO remove hardcoded times value
+        }
+*/
+        entity.configure { it -= TweenAnimationComponentStart }
+
+/*        val sprite = entity[Sprite]
         val imageView = korgeViewCache[entity] as ImageDataViewEx
         updateProperty(entity, AnimateSpriteAnimName, sprite::animationName) { imageView.animation = sprite.animationName }
         updateProperty(entity, AnimateSpriteIsPlaying, sprite::isPlaying)
@@ -122,11 +142,11 @@ class AnimateSpriteSystem(
         }
 
         if (sprite.isPlaying) imageView.play(reverse = !sprite.forwardDirection, once = !sprite.loop)
+*/
     }
 }
-*/
 
-class AnimateSpawnerComponentSystem : IteratingSystem(
+class SpawnerTweenSystem : IteratingSystem(
     family { all(SpawnerComponent).any(AnimateSpawnerComponentNumberOfObjects, AnimateSpawnerComponentInterval, AnimateSpawnerComponentTimeVariation, AnimateSpawnerComponentPositionVariation) },
     interval = EachFrame
 ) {
@@ -171,7 +191,7 @@ class AnimateSoundSystem : IteratingSystem(
  *
  */
 @JvmName("updatePropertyDouble")
-fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<AnimateComponent>, value: KMutableProperty0<Double>) {
+fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<TweenComponent>, value: KMutableProperty0<Double>) {
     entity.getOrNull(component)?.let {
         // Check if time of animation sequence is over - then we can remove the animation component again
         if (it.timeProgress >= it.duration) entity.configure { entity ->
@@ -188,7 +208,7 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Anim
 }
 
 @JvmName("updatePropertyFloat")
-fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<AnimateComponent>, value: KMutableProperty0<Float>) {
+fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<TweenComponent>, value: KMutableProperty0<Float>) {
     entity.getOrNull(component)?.let {
         // Check if time of animation sequence is over - then we can remove the animation component again
         if (it.timeProgress >= it.duration) entity.configure { entity ->
@@ -205,7 +225,7 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Anim
 }
 
 @JvmName("updatePropertyInt")
-fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<AnimateComponent>, value: KMutableProperty0<Int>, block: EntityUpdateContext.() -> Unit = {}) {
+fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<TweenComponent>, value: KMutableProperty0<Int>, block: EntityUpdateContext.() -> Unit = {}) {
     entity.getOrNull(component)?.let {
         if (it.timeProgress >= it.duration) entity.configure { entity ->
             value.set(it.change as Int + it.value as Int)
@@ -237,7 +257,7 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Anim
 */
 
 @JvmName("updatePropertyBoolean")
-fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<AnimateComponent>, value: KMutableProperty0<Boolean>, block: EntityUpdateContext.() -> Unit = {}) {
+fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<TweenComponent>, value: KMutableProperty0<Boolean>, block: EntityUpdateContext.() -> Unit = {}) {
     entity.getOrNull(component)?.let {
         if (it.timeProgress >= it.duration || it.easing.invoke((it.timeProgress / it.duration)) > 0.5) entity.configure { entity ->
             value.set(it.value as Boolean)
@@ -248,7 +268,7 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Anim
 }
 
 @JvmName("updatePropertyStringNullable")
-fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<AnimateComponent>, value: KMutableProperty0<String?>, block: EntityUpdateContext.() -> Unit = {}) {
+fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<TweenComponent>, value: KMutableProperty0<String?>, block: EntityUpdateContext.() -> Unit = {}) {
     entity.getOrNull(component)?.let {
         if (it.timeProgress >= it.duration || it.easing.invoke((it.timeProgress / it.duration)) > 0.5) entity.configure { entity ->
             value.set(it.value as String)
@@ -258,8 +278,9 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Anim
     }
 }
 
-fun SystemConfiguration.addAnimateComponentSystems() {
-    add(AnimateMoveComponentSystem())
-    add(AnimateSpawnerComponentSystem())
+fun SystemConfiguration.addAllTweenSystems() {
+    add(MoveTweenSystem())
+    add(SpawnerTweenSystem())
+    add(SpriteTweenSystem())
 }
 

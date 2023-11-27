@@ -43,7 +43,8 @@ object EntityByName {
     fun contains(name: String): Boolean = map.containsKey(name)
 
     fun remove(name: String) {
-        if (!map.containsKey(name)) println("EntityByName: Entity with name '$name' does not exist!")
-        else map.remove(name)
+//        if (!map.containsKey(name)) println("EntityByName: Entity with name '$name' does not exist!")
+//        else map.remove(name)
+        map.remove(name)
     }
 }
