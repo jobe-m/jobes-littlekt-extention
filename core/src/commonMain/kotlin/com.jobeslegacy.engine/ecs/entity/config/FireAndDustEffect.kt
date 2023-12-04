@@ -66,13 +66,9 @@ object FireAndDustEffect {
             if (effectConfig.startAnimation) {
                 entity += AnimationComponent(
                     // animation will be taken out of the game object config
-                    gameObjectConfigName = effectConfig.configName
+                    gameObjectConfigName = effectConfig.configName,
+                    destroyOnAnimationFinished = effectConfig.destroyOnAnimationFinished
                 ).apply {
-                    // TODO this needs to be integrated differently - it is currently not serializable
-                    onAnimationFinish = {
-                        world -= entity
-                        logger.info { "anim finished, deleting entity: ${entity.id}" }
-                    }
                     // TODO refactor that
                     if (effectConfig.loopAnimation) playLooped(effectConfig.configName)
                     else play(effectConfig.configName)
