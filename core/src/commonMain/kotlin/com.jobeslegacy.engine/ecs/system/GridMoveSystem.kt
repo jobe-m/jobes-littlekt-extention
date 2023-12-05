@@ -24,7 +24,7 @@ object GridSystemConfig {
  */
 class GridMoveSystem(
     private val gridCollisionPool: Pool<GridCollisionResultComponent>? = null,
-    interval: Interval = Fixed(1 / 60f)
+    interval: Interval
 ) : IteratingSystem(
     family = family { all(MoveComponent, GridComponent) },
     interval = interval

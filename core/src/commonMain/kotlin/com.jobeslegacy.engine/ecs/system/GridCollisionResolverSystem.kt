@@ -7,14 +7,13 @@ import com.jobeslegacy.engine.ecs.component.*
  * @author Colton Daily
  * @date 3/10/2023
  */
-class GridCollisionResolverSystem(
-    interval: Interval = Fixed(1 / 60f)
-) : IteratingSystem(family = World.family {
+class GridCollisionResolverSystem(interval: Interval) : IteratingSystem(
+    family = World.family {
     all(GridComponent, MoveComponent, GridCollisionComponent, GridCollisionResolverComponent).any(
         GridCollisionResultComponent.GridCollisionX,
-        GridCollisionResultComponent.GridCollisionY
-    )
-}, interval = interval) {
+        GridCollisionResultComponent.GridCollisionY) },
+    interval = interval
+) {
 
     override fun onTickEntity(entity: Entity) {
         val grid = entity[GridComponent]

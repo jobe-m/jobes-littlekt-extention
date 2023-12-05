@@ -2,6 +2,7 @@ package com.jobeslegacy.engine.ecs.system
 
 import com.github.quillraven.fleks.Entity
 import com.github.quillraven.fleks.Fixed
+import com.github.quillraven.fleks.Interval
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.ecs.component.*
@@ -20,9 +21,9 @@ import kotlin.time.Duration
  * @author Colton Daily
  * @date 3/9/2023
  */
-class AnimationPlayerSystem : IteratingSystem(
+class AnimationPlayerSystem(interval: Interval) : IteratingSystem(
     family { all(SpriteComponent, AnimationComponent) },
-    interval = Fixed(1 / 60f)
+    interval = interval
 ) {
     private val logger = Logger("AnimationPlayerSystem")
     private lateinit var animation: AnimationComponent
@@ -90,7 +91,7 @@ class AnimationPlayerSystem : IteratingSystem(
 
             if (animation.destroyOnAnimationFinished) {
                 world -= this.entity
-                logger.info { "anim finished, deleting entity: ${entity.id}" }
+//                logger.info { "anim finished, deleting entity: ${entity.id}" }
             }
         }
     }

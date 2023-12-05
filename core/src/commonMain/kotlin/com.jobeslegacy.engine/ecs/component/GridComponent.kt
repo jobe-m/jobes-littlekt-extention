@@ -44,10 +44,10 @@ class GridComponent(
     var cy: Int = 0,
     var xr: Float = 0f,
     var yr: Float = 0f,
-    var zr: Float = 0f
+    var zr: Float = 0f,
+    var anchorX: Float = 0.5f,
+    var anchorY: Float = 0.5f,
 ) : Component<GridComponent> {
-    var anchorX: Float = 0.5f
-    var anchorY: Float = 0.5f
 
     var maxGridMovementPercent: Float = 0.33f
 

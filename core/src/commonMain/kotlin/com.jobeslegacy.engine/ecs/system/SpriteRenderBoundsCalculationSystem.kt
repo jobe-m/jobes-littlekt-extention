@@ -1,6 +1,7 @@
 package com.jobeslegacy.engine.ecs.system
 
 import com.github.quillraven.fleks.Entity
+import com.github.quillraven.fleks.Interval
 import com.github.quillraven.fleks.IteratingSystem
 import com.github.quillraven.fleks.World.Companion.family
 import com.jobeslegacy.engine.ecs.component.GridComponent
@@ -16,9 +17,10 @@ import com.lehaine.littlekt.math.geom.normalized
  * @author Colton Daily
  * @date 3/9/2023
  */
-class SpriteRenderBoundsCalculationSystem :
-    IteratingSystem(family { all(GridComponent, SpriteComponent, RenderBoundsComponent) }) {
-
+class SpriteRenderBoundsCalculationSystem(interval: Interval) : IteratingSystem(
+    family { all(GridComponent, SpriteComponent, RenderBoundsComponent) },
+    interval = interval
+) {
     private val _bounds = Rect()
     private val transMat = Mat3()
     private val tempMat = Mat3()

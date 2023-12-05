@@ -90,9 +90,9 @@ class AnimatePositionShapeSystem : IteratingSystem(
 */
 
 
-class MoveTweenSystem : IteratingSystem(
+class MoveTweenSystem(interval: Interval) : IteratingSystem(
     family { any(AnimateMoveComponentVelocityX, AnimateMoveComponentVelocityY) },
-    interval = EachFrame
+    interval = interval
 ) {
     override fun onTickEntity(entity: Entity) {
         entity.getOrNull(MoveComponent)?.let {
@@ -102,10 +102,10 @@ class MoveTweenSystem : IteratingSystem(
     }
 }
 
-class SpriteTweenSystem : IteratingSystem(
+class SpriteTweenSystem(interval: Interval) : IteratingSystem(
     family { all(SpriteComponent, AnimationComponent, TweenAnimationComponentStart) },
 //    family { all(SpriteComponent).any(AnimateAnimationComponentStart) }, // AnimateSpriteAnimName, AnimateSpriteIsPlaying, AnimateSpriteForwardDirection, AnimateSpriteLoop, AnimateSpriteDestroyOnPlayingFinished) },
-    interval = EachFrame
+    interval = interval
 ) {
     private val logger = Logger("AnimateSpriteSystem")
     override fun onTickEntity(entity: Entity) {
@@ -146,9 +146,9 @@ class SpriteTweenSystem : IteratingSystem(
     }
 }
 
-class SpawnerTweenSystem : IteratingSystem(
+class SpawnerTweenSystem(interval: Interval) : IteratingSystem(
     family { all(SpawnerComponent).any(AnimateSpawnerComponentNumberOfObjects, AnimateSpawnerComponentInterval, AnimateSpawnerComponentTimeVariation, AnimateSpawnerComponentPositionVariation) },
-    interval = EachFrame
+    interval = interval
 ) {
     override fun onTickEntity(entity: Entity) {
         val spawner = entity[SpawnerComponent]
@@ -278,9 +278,9 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Twee
     }
 }
 
-fun SystemConfiguration.addAllTweenSystems() {
-    add(MoveTweenSystem())
-    add(SpawnerTweenSystem())
-    add(SpriteTweenSystem())
+fun SystemConfiguration.addAllTweenSystems(interval: Interval) {
+    add(MoveTweenSystem(interval))
+    add(SpawnerTweenSystem(interval))
+    add(SpriteTweenSystem(interval))
 }
 

@@ -17,11 +17,9 @@ import com.jobeslegacy.engine.util.random
  * It can be configured to periodically spawn entities until a total number of spawned objects is reached, or
  * it can also spawn an unlimited number of entities (run forever until it dies).
  */
-class SpawnerSystem(
-//    private val korgeViewCache: KorgeViewCache = inject("KorgeViewCache")
-) : IteratingSystem(
+class SpawnerSystem(interval: Interval) : IteratingSystem(
     family { all(SpawnerComponent) },
-    interval = Fixed(1 / 60f)
+    interval = interval
 ) {
     override fun onTickEntity(entity: Entity) {
         val spawner = entity[SpawnerComponent]

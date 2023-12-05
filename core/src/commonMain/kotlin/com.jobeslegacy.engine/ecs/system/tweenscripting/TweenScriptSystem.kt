@@ -13,9 +13,9 @@ import com.lehaine.littlekt.log.Logger
 /**
  * This system creates Animate... components on entities which should be animated according to the game config.
  */
-class TweenScriptSystem : IteratingSystem(
+class TweenScriptSystem(interval: Interval) : IteratingSystem(
     family { all(TweenScript) },
-    interval = EachFrame
+    interval = interval
 ) {
     // Internally used variables in createAnimateComponent function
     private lateinit var currentTween: TweenBase
