@@ -3,10 +3,7 @@ package com.jobeslegacy.engine.ecs.system
 
 import com.github.quillraven.fleks.*
 import com.github.quillraven.fleks.World.Companion.family
-import com.jobeslegacy.engine.ecs.component.GridComponent
-import com.jobeslegacy.engine.ecs.component.OffsetByFrameIndexComponent
-import com.jobeslegacy.engine.ecs.component.OffsetComponent
-import com.jobeslegacy.engine.ecs.component.SpawnerComponent
+import com.jobeslegacy.engine.ecs.component.*
 import com.jobeslegacy.engine.ecs.entity.config.Invokable
 import com.jobeslegacy.engine.ecs.entity.config.isInvalidEntity
 import com.jobeslegacy.engine.util.random

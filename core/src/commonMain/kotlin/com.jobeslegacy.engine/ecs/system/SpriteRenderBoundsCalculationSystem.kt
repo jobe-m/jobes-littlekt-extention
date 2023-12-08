@@ -43,6 +43,7 @@ class SpriteRenderBoundsCalculationSystem(interval: Interval) : IteratingSystem(
         val x = grid.x
         val y = grid.y
 
+        // get bounds of used sprite texture
         calculateBounds(x, y,
             offsetX = slice?.offsetX ?: 0,
             offsetY = slice?.offsetY ?: 0,

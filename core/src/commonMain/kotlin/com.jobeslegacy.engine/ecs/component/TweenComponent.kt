@@ -59,8 +59,8 @@ data class TweenComponent (
 /*
         val AnimateLifeCycleHealthCounter = AnimateProperty.
 */
-        val AnimatePositionAndSizeComponentX = TweenProperty.PositionAndSizeComponentX.type
-        val AnimatePositionAndSizeComponentY = TweenProperty.PositionAndSizeComponentY.type
+        val AnimateGridComponentX = TweenProperty.GridComponentX.type
+        val AnimateGridComponentY = TweenProperty.GridComponentY.type
         
         val AnimateMoveComponentVelocityX = TweenProperty.MoveComponentVelocityX.type
         val AnimateMoveComponentVelocityY = TweenProperty.MoveComponentVelocityY.type
@@ -105,8 +105,8 @@ data class TweenComponent (
 enum class TweenProperty(val type: ComponentType<TweenComponent>) {
     TweenSpriteComponentPlayOnce(componentTypeOf<TweenComponent>()),
 
-    PositionAndSizeComponentX(componentTypeOf<TweenComponent>()),
-    PositionAndSizeComponentY(componentTypeOf<TweenComponent>()),
+    GridComponentX(componentTypeOf<TweenComponent>()),
+    GridComponentY(componentTypeOf<TweenComponent>()),
     MoveComponentVelocityX(componentTypeOf<TweenComponent>()),
     MoveComponentVelocityY(componentTypeOf<TweenComponent>()),
 

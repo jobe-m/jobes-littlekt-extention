@@ -88,7 +88,7 @@ internal val internalModule = SerializersModule {
         subclass(ExecuteConfigFunction::class)
         subclass(DeleteEntity::class)
 //        subclass(TweenAppearance::class)
-        subclass(TweenPositionAndSizeComponent::class)
+        subclass(TweenGridComponent::class)
         subclass(TweenOffset::class)
         subclass(TweenLayout::class)
         subclass(TweenSprite::class)

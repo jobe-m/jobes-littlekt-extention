@@ -6,7 +6,7 @@ import com.jobeslegacy.engine.util.Identifier
 
 
 /**
- * The invalidEntity is used to initialize entity properties of components.
+ * The [invalidEntity] is used to initialize entity properties of components.
  * This entity is not existing and thus should never be created in a Fleks world.
  */
 val invalidEntity: Entity = Entity(id = -1)

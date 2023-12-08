@@ -54,7 +54,7 @@ class GridComponent(
     val innerRadius get() = min(WIDTH, HEIGHT) * 0.5f
     val outerRadius get() = max(WIDTH, HEIGHT) * 0.5f
 
-    var interpolatePixelPosition: Boolean = true
+    private var interpolatePixelPosition: Boolean = false //true
 
     var interpolationAlpha: Float = 1f
 

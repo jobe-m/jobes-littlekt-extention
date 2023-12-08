@@ -151,9 +151,8 @@ data class TweenMoveComponent(
     override var easing: Easing? = null
 ) : TweenBase
 
-// TODO check if needed or superseded by TweenGridComponent
-@Serializable @SerialName("AnimationScript.TweenPositionAndSize")
-data class TweenPositionAndSizeComponent(
+@Serializable @SerialName("AnimationScript.TweenGridComponent")
+data class TweenGridComponent(
     val x: Float? = null,
     val y: Float? = null,
 

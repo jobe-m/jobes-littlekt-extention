@@ -10,6 +10,8 @@ import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateSpaw
 import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateSpawnerComponentTimeVariation
 import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateSpawnerComponentPositionVariation
 import com.jobeslegacy.engine.ecs.component.*
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateGridComponentX
+import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.AnimateGridComponentY
 import com.jobeslegacy.engine.ecs.component.TweenComponent.Companion.TweenAnimationComponentStart
 import com.lehaine.littlekt.log.Logger
 import kotlin.jvm.JvmName
@@ -71,24 +73,21 @@ class AnimateNoisyMoveSystem : IteratingSystem(
 }
 */
 
-/*
-class AnimatePositionShapeSystem : IteratingSystem(
-    family { any(AnimatePositionShapeX, AnimatePositionShapeY, AnimateOffsetX, AnimateOffsetY) },
-    interval = EachFrame
+class GridTweenSystem(interval: Interval) : IteratingSystem(
+    family { any(AnimateGridComponentX, AnimateGridComponentY) },
+    interval = interval
 ) {
     override fun onTickEntity(entity: Entity) {
-        entity.getOrNull(PositionShape)?.let {
-            updateProperty(entity, AnimatePositionShapeX, it::x)
-            updateProperty(entity, AnimatePositionShapeY, it::y)
+        entity.getOrNull(GridComponent)?.let {
+            updateProperty(entity, AnimateGridComponentX, it::x)
+            updateProperty(entity, AnimateGridComponentY, it::y)
         }
-        entity.getOrNull(Offset)?.let {
-            updateProperty(entity, AnimateOffsetX, it::x)
-            updateProperty(entity, AnimateOffsetY, it::y)
-        }
+//        entity.getOrNull(Offset)?.let {
+//            updateProperty(entity, AnimateOffsetX, it::x)
+//            updateProperty(entity, AnimateOffsetY, it::y)
+//        }
     }
 }
-*/
-
 
 class MoveTweenSystem(interval: Interval) : IteratingSystem(
     family { any(AnimateMoveComponentVelocityX, AnimateMoveComponentVelocityY) },
@@ -279,6 +278,7 @@ fun IteratingSystem.updateProperty(entity: Entity, component: ComponentType<Twee
 }
 
 fun SystemConfiguration.addAllTweenSystems(interval: Interval) {
+    add(GridTweenSystem(interval))
     add(MoveTweenSystem(interval))
     add(SpawnerTweenSystem(interval))
     add(SpriteTweenSystem(interval))

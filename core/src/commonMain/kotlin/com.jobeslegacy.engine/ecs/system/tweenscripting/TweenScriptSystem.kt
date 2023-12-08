@@ -116,9 +116,9 @@ class TweenScriptSystem(interval: Interval) : IteratingSystem(
 //                ) }
 //                tween.visible?.let { value -> createAnimateComponent(AppearanceVisible, value) }
 //            }
-            is TweenPositionAndSizeComponent -> tween.entity.getOrError(PositionAndSizeComponent).let { start ->
-//                tween.x?.let { end -> createAnimateComponent(PositionShapeX, start.x, end - start.x) }
-                tween.y?.let { end -> createAnimateComponent(PositionAndSizeComponentY, start.y, end - start.y) }
+            is TweenGridComponent -> tween.entity.getOrError(GridComponent).let { start ->
+                tween.x?.let { end -> createAnimateComponent(GridComponentX, start.x, end - start.x) }
+                tween.y?.let { end -> createAnimateComponent(GridComponentY, start.y, end - start.y) }
             }
             is TweenMoveComponent -> tween.entity.getOrError(MoveComponent).let { start ->
                 tween.velocityX?.let { end -> createAnimateComponent(MoveComponentVelocityX, start.velocityX , end - start.velocityX) }

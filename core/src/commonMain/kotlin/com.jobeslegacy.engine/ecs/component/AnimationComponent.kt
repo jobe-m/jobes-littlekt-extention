@@ -25,7 +25,7 @@ import kotlin.time.Duration.Companion.milliseconds
 data class AnimationComponent(
     /** Identifier for getting the [Animation] from GameObjectConfigCache */
     var gameObjectConfigName: Identifier = nothing,
-    /** Destroy entity  */
+    /** Destroy entity when animation has finished playing */
     var destroyOnAnimationFinished: Boolean = false,
 
     /** The total amount of frames played across all animations */
@@ -40,8 +40,6 @@ data class AnimationComponent(
     var animationType: AnimationType = AnimationType.STANDARD,
     var lastFrameTime: Duration = Duration.ZERO,
     var remainingDuration: Duration = Duration.ZERO
-
-
 ) : Component<AnimationComponent> {
     // TODO only for debugging - remove later
     var time: Float = 0f
